@@ -1,0 +1,3249 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "9100"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-07-14T07:42:12Z"
+    generateName: tec-traefik-598fb58f67-
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 598fb58f67
+    name: tec-traefik-598fb58f67-4l8f7
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: tec-traefik-598fb58f67
+      uid: 865d3415-d314-45ad-b362-20161a624f4b
+    resourceVersion: "1041319049"
+    uid: cc6ff365-eb09-4653-9705-4eb932b8bc9b
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/nodegroup
+              operator: In
+              values:
+              - private-nodes-eks-platform
+    automountServiceAccountToken: true
+    containers:
+    - args:
+      - --global.checknewversion
+      - --global.sendanonymoususage
+      - --entryPoints.metrics.address=:9100/tcp
+      - --entryPoints.traefik.address=:9000/tcp
+      - --entryPoints.web.address=:8000/tcp
+      - --entryPoints.websecure.address=:8443/tcp
+      - --api.dashboard=true
+      - --ping=true
+      - --metrics.prometheus=true
+      - --metrics.prometheus.entrypoint=metrics
+      - --metrics.prometheus.addRoutersLabels=true
+      - --metrics.prometheus.addEntryPointsLabels=true
+      - --metrics.prometheus.addServicesLabels=true
+      - --providers.kubernetescrd
+      - --providers.kubernetesingress
+      - --entryPoints.websecure.http.tls=true
+      - --entryPoints.websecure.http.tls.certResolver=leresolver
+      - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+      - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+      - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+      - --log.level=INFO
+      - --accesslog=true
+      - --accesslog.format=json
+      - --accesslog.fields.defaultmode=keep
+      - --accesslog.fields.names.ClientPort=drop
+      - --accesslog.fields.names.ClientUsername=drop
+      - --accesslog.fields.names.DownstreamStatusLine=drop
+      - --accesslog.fields.names.GzipRatio=drop
+      - --accesslog.fields.names.OriginContentSize=drop
+      - --accesslog.fields.names.OriginDuration=drop
+      - --accesslog.fields.names.OriginStatus=drop
+      - --accesslog.fields.names.OriginStatusLine=drop
+      - --accesslog.fields.names.Overhead=drop
+      - --accesslog.fields.names.RequestContentSize=drop
+      - --accesslog.fields.names.RequestCount=drop
+      - --accesslog.fields.names.RequestHost=drop
+      - --accesslog.fields.names.RequestMethod=drop
+      - --accesslog.fields.names.RequestPath=drop
+      - --accesslog.fields.names.RequestPort=drop
+      - --accesslog.fields.names.RequestProtocol=drop
+      - --accesslog.fields.names.RequestScheme=drop
+      - --accesslog.fields.names.RouterName=drop
+      - --accesslog.fields.names.ServiceAddr=drop
+      - --accesslog.fields.names.StartLocal=drop
+      - --accesslog.fields.names.StartUTC=drop
+      - --accesslog.fields.names.TLSCipher=drop
+      - --accesslog.fields.names.TLSVersion=drop
+      - --accesslog.fields.headers.defaultmode=drop
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+      - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+      - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+      - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+      - --providers.file.filename=/config/config.yaml
+      - --serversTransport.insecureSkipVerify=true
+      env:
+      - name: GOMEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            divisor: "1"
+            resource: limits.memory
+      - name: CF_API_EMAIL
+        value: naveen@basikmarketing.in
+      - name: CF_API_KEY
+        value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+      image: docker.io/traefik:v3.1.2
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      name: tec-traefik
+      ports:
+      - containerPort: 9100
+        name: metrics
+        protocol: TCP
+      - containerPort: 9000
+        name: traefik
+        protocol: TCP
+      - containerPort: 8000
+        name: web
+        protocol: TCP
+      - containerPort: 8443
+        name: websecure
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 1
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: "2"
+          memory: 1Gi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-klmlc
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-10-0-20-0.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+    serviceAccount: tec-traefik
+    serviceAccountName: tec-traefik
+    terminationGracePeriodSeconds: 60
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: tec-traefik
+    - emptyDir: {}
+      name: tmp
+    - configMap:
+        defaultMode: 420
+        name: tec-traefik-configs
+      name: tec-traefik-configs
+    - name: kube-api-access-klmlc
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:20Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:12Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:21Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:21Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:12Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://da51459b120bce855e0c3fcd8250b64b29ed6be7e484f62a87557a25df4a660d
+      image: docker.io/library/traefik:v3.1.2
+      imageID: docker.io/library/traefik@sha256:3f92eba47bd4bfda91d47b72d16fef2d7ae15db61a92b2057cf0cb389f8938f6
+      lastState: {}
+      name: tec-traefik
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-14T07:42:19Z"
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-klmlc
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.20.0
+    hostIPs:
+    - ip: 10.0.20.0
+    phase: Running
+    podIP: 10.0.3.235
+    podIPs:
+    - ip: 10.0.3.235
+    qosClass: Burstable
+    startTime: "2026-07-14T07:42:12Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "9100"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-07-14T07:42:40Z"
+    generateName: tec-traefik-598fb58f67-
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 598fb58f67
+    name: tec-traefik-598fb58f67-6jgd7
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: tec-traefik-598fb58f67
+      uid: 865d3415-d314-45ad-b362-20161a624f4b
+    resourceVersion: "1041319334"
+    uid: 27f18883-16ad-49c6-8730-14f23fc16a85
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/nodegroup
+              operator: In
+              values:
+              - private-nodes-eks-platform
+    automountServiceAccountToken: true
+    containers:
+    - args:
+      - --global.checknewversion
+      - --global.sendanonymoususage
+      - --entryPoints.metrics.address=:9100/tcp
+      - --entryPoints.traefik.address=:9000/tcp
+      - --entryPoints.web.address=:8000/tcp
+      - --entryPoints.websecure.address=:8443/tcp
+      - --api.dashboard=true
+      - --ping=true
+      - --metrics.prometheus=true
+      - --metrics.prometheus.entrypoint=metrics
+      - --metrics.prometheus.addRoutersLabels=true
+      - --metrics.prometheus.addEntryPointsLabels=true
+      - --metrics.prometheus.addServicesLabels=true
+      - --providers.kubernetescrd
+      - --providers.kubernetesingress
+      - --entryPoints.websecure.http.tls=true
+      - --entryPoints.websecure.http.tls.certResolver=leresolver
+      - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+      - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+      - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+      - --log.level=INFO
+      - --accesslog=true
+      - --accesslog.format=json
+      - --accesslog.fields.defaultmode=keep
+      - --accesslog.fields.names.ClientPort=drop
+      - --accesslog.fields.names.ClientUsername=drop
+      - --accesslog.fields.names.DownstreamStatusLine=drop
+      - --accesslog.fields.names.GzipRatio=drop
+      - --accesslog.fields.names.OriginContentSize=drop
+      - --accesslog.fields.names.OriginDuration=drop
+      - --accesslog.fields.names.OriginStatus=drop
+      - --accesslog.fields.names.OriginStatusLine=drop
+      - --accesslog.fields.names.Overhead=drop
+      - --accesslog.fields.names.RequestContentSize=drop
+      - --accesslog.fields.names.RequestCount=drop
+      - --accesslog.fields.names.RequestHost=drop
+      - --accesslog.fields.names.RequestMethod=drop
+      - --accesslog.fields.names.RequestPath=drop
+      - --accesslog.fields.names.RequestPort=drop
+      - --accesslog.fields.names.RequestProtocol=drop
+      - --accesslog.fields.names.RequestScheme=drop
+      - --accesslog.fields.names.RouterName=drop
+      - --accesslog.fields.names.ServiceAddr=drop
+      - --accesslog.fields.names.StartLocal=drop
+      - --accesslog.fields.names.StartUTC=drop
+      - --accesslog.fields.names.TLSCipher=drop
+      - --accesslog.fields.names.TLSVersion=drop
+      - --accesslog.fields.headers.defaultmode=drop
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+      - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+      - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+      - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+      - --providers.file.filename=/config/config.yaml
+      - --serversTransport.insecureSkipVerify=true
+      env:
+      - name: GOMEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            divisor: "1"
+            resource: limits.memory
+      - name: CF_API_EMAIL
+        value: naveen@basikmarketing.in
+      - name: CF_API_KEY
+        value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+      image: docker.io/traefik:v3.1.2
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      name: tec-traefik
+      ports:
+      - containerPort: 9100
+        name: metrics
+        protocol: TCP
+      - containerPort: 9000
+        name: traefik
+        protocol: TCP
+      - containerPort: 8000
+        name: web
+        protocol: TCP
+      - containerPort: 8443
+        name: websecure
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 1
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: "2"
+          memory: 1Gi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-h5xcj
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-10-0-20-0.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+    serviceAccount: tec-traefik
+    serviceAccountName: tec-traefik
+    terminationGracePeriodSeconds: 60
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: tec-traefik
+    - emptyDir: {}
+      name: tmp
+    - configMap:
+        defaultMode: 420
+        name: tec-traefik-configs
+      name: tec-traefik-configs
+    - name: kube-api-access-h5xcj
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:42Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:40Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:43Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:43Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:40Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://c22a36dbade4d4417da73bbc42118ccf706683f25e0fd9c35a46ebad0309427e
+      image: docker.io/library/traefik:v3.1.2
+      imageID: docker.io/library/traefik@sha256:3f92eba47bd4bfda91d47b72d16fef2d7ae15db61a92b2057cf0cb389f8938f6
+      lastState: {}
+      name: tec-traefik
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-14T07:42:41Z"
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-h5xcj
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.20.0
+    hostIPs:
+    - ip: 10.0.20.0
+    phase: Running
+    podIP: 10.0.16.136
+    podIPs:
+    - ip: 10.0.16.136
+    qosClass: Burstable
+    startTime: "2026-07-14T07:42:40Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "9100"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-07-14T07:42:25Z"
+    generateName: tec-traefik-598fb58f67-
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 598fb58f67
+    name: tec-traefik-598fb58f67-6pmsq
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: tec-traefik-598fb58f67
+      uid: 865d3415-d314-45ad-b362-20161a624f4b
+    resourceVersion: "1041319149"
+    uid: bfa2ce8d-68ca-461e-a76b-4d2dbe360621
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/nodegroup
+              operator: In
+              values:
+              - private-nodes-eks-platform
+    automountServiceAccountToken: true
+    containers:
+    - args:
+      - --global.checknewversion
+      - --global.sendanonymoususage
+      - --entryPoints.metrics.address=:9100/tcp
+      - --entryPoints.traefik.address=:9000/tcp
+      - --entryPoints.web.address=:8000/tcp
+      - --entryPoints.websecure.address=:8443/tcp
+      - --api.dashboard=true
+      - --ping=true
+      - --metrics.prometheus=true
+      - --metrics.prometheus.entrypoint=metrics
+      - --metrics.prometheus.addRoutersLabels=true
+      - --metrics.prometheus.addEntryPointsLabels=true
+      - --metrics.prometheus.addServicesLabels=true
+      - --providers.kubernetescrd
+      - --providers.kubernetesingress
+      - --entryPoints.websecure.http.tls=true
+      - --entryPoints.websecure.http.tls.certResolver=leresolver
+      - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+      - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+      - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+      - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+      - --log.level=INFO
+      - --accesslog=true
+      - --accesslog.format=json
+      - --accesslog.fields.defaultmode=keep
+      - --accesslog.fields.names.ClientPort=drop
+      - --accesslog.fields.names.ClientUsername=drop
+      - --accesslog.fields.names.DownstreamStatusLine=drop
+      - --accesslog.fields.names.GzipRatio=drop
+      - --accesslog.fields.names.OriginContentSize=drop
+      - --accesslog.fields.names.OriginDuration=drop
+      - --accesslog.fields.names.OriginStatus=drop
+      - --accesslog.fields.names.OriginStatusLine=drop
+      - --accesslog.fields.names.Overhead=drop
+      - --accesslog.fields.names.RequestContentSize=drop
+      - --accesslog.fields.names.RequestCount=drop
+      - --accesslog.fields.names.RequestHost=drop
+      - --accesslog.fields.names.RequestMethod=drop
+      - --accesslog.fields.names.RequestPath=drop
+      - --accesslog.fields.names.RequestPort=drop
+      - --accesslog.fields.names.RequestProtocol=drop
+      - --accesslog.fields.names.RequestScheme=drop
+      - --accesslog.fields.names.RouterName=drop
+      - --accesslog.fields.names.ServiceAddr=drop
+      - --accesslog.fields.names.StartLocal=drop
+      - --accesslog.fields.names.StartUTC=drop
+      - --accesslog.fields.names.TLSCipher=drop
+      - --accesslog.fields.names.TLSVersion=drop
+      - --accesslog.fields.headers.defaultmode=drop
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+      - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+      - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+      - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+      - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+      - --providers.file.filename=/config/config.yaml
+      - --serversTransport.insecureSkipVerify=true
+      env:
+      - name: GOMEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            divisor: "1"
+            resource: limits.memory
+      - name: CF_API_EMAIL
+        value: naveen@basikmarketing.in
+      - name: CF_API_KEY
+        value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+      image: docker.io/traefik:v3.1.2
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      name: tec-traefik
+      ports:
+      - containerPort: 9100
+        name: metrics
+        protocol: TCP
+      - containerPort: 9000
+        name: traefik
+        protocol: TCP
+      - containerPort: 8000
+        name: web
+        protocol: TCP
+      - containerPort: 8443
+        name: websecure
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 1
+        httpGet:
+          path: /ping
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 2
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: "2"
+          memory: 1Gi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7w98m
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-10-0-24-82.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+    serviceAccount: tec-traefik
+    serviceAccountName: tec-traefik
+    terminationGracePeriodSeconds: 60
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: tec-traefik
+    - emptyDir: {}
+      name: tmp
+    - configMap:
+        defaultMode: 420
+        name: tec-traefik-configs
+      name: tec-traefik-configs
+    - name: kube-api-access-7w98m
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:27Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:25Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:28Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:28Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-14T07:42:25Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://27048ecdbaa440cce99f1bdf185a43a9e46fca45f514eb5997960468c2e24a85
+      image: docker.io/library/traefik:v3.1.2
+      imageID: docker.io/library/traefik@sha256:3f92eba47bd4bfda91d47b72d16fef2d7ae15db61a92b2057cf0cb389f8938f6
+      lastState: {}
+      name: tec-traefik
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-14T07:42:26Z"
+      volumeMounts:
+      - mountPath: /data
+        name: data
+      - mountPath: /tmp
+        name: tmp
+      - mountPath: /config
+        name: tec-traefik-configs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7w98m
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.24.82
+    hostIPs:
+    - ip: 10.0.24.82
+    phase: Running
+    podIP: 10.0.0.159
+    podIPs:
+    - ip: 10.0.0.159
+    qosClass: Burstable
+    startTime: "2026-07-14T07:42:25Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      alb.ingress.kubernetes.io/aws-load-balancer-type: nlb
+      alb.ingress.kubernetes.io/scheme: internal
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    creationTimestamp: "2024-10-07T20:32:18Z"
+    finalizers:
+    - service.k8s.aws/resources
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+    name: tec-traefik
+    namespace: traefik
+    resourceVersion: "656192000"
+    uid: 302a62a5-7f0f-41c2-89b3-f8cf4f9ee3bc
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 172.20.182.109
+    clusterIPs:
+    - 172.20.182.109
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    loadBalancerClass: service.k8s.aws/nlb
+    ports:
+    - name: websecure
+      nodePort: 32055
+      port: 443
+      protocol: TCP
+      targetPort: websecure
+    selector:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/name: traefik
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: basik-eks-135-test-707112c7b1f2b29e.elb.ap-south-1.amazonaws.com
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "11"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-10-07T20:32:18Z"
+    generation: 45
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      k8slens-edit-resource-version: v1
+    name: tec-traefik
+    namespace: traefik
+    resourceVersion: "1041319338"
+    uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 3
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+          - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: "2"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    availableReplicas: 3
+    conditions:
+    - lastTransitionTime: "2024-10-07T20:32:18Z"
+      lastUpdateTime: "2026-03-30T17:10:48Z"
+      message: ReplicaSet "tec-traefik-598fb58f67" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-07-14T07:42:43Z"
+      lastUpdateTime: "2026-07-14T07:42:43Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 45
+    readyReplicas: 3
+    replicas: 3
+    updatedReplicas: 3
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "11"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2026-03-30T17:08:48Z"
+    generation: 18
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 598fb58f67
+    name: tec-traefik-598fb58f67
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "1041319337"
+    uid: 865d3415-d314-45ad-b362-20161a624f4b
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 598fb58f67
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 598fb58f67
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+          - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: "2"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    availableReplicas: 3
+    fullyLabeledReplicas: 3
+    observedGeneration: 18
+    readyReplicas: 3
+    replicas: 3
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "8"
+      deployment.kubernetes.io/revision-history: "4"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-12-16T11:47:54Z"
+    generation: 15
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 5bd9c969fb
+    name: tec-traefik-5bd9c969fb
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "654402984"
+    uid: 48031892-cdec-490d-8e38-6e7135328f2b
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 5bd9c969fb
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 5bd9c969fb
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 15
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "10"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2025-11-13T10:11:41Z"
+    generation: 15
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 5f4db648d8
+    name: tec-traefik-5f4db648d8
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "954349929"
+    uid: ec623fcc-0a4d-41b9-b1bc-63008f820c14
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 5f4db648d8
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 5f4db648d8
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+          - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
+          - --entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 15
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "7"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2025-03-05T12:08:58Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 76987d9c8d
+    name: tec-traefik-76987d9c8d
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "641267695"
+    uid: 0a4beaf5-9f62-4026-aa8a-777be6fad669
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 76987d9c8d
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 76987d9c8d
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --certificatesresolvers.zerossl.acme.caServer=https://acme.zerossl.com/v2/DV90
+          - --certificatesresolvers.zerossl.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.zerossl.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
+          - --certificatesresolvers.zerossl.acme.eab.hmacEncoded=JJL92ZjOSkaYU3ou8y0ZT5AaoTO5HMHWd66cqWPT3SigcvOopMTCphWuEHeYKZhdIDV3pTv2kubs_CPlqerNOw
+          - --certificatesresolvers.zerossl.acme.eab.kid=5olxrs2Zw_FA5K_dBcYzKA
+          - --certificatesresolvers.zerossl.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.zerossl.acme.storage=/data/zeroacme.json
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 7
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "6"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2025-03-05T12:07:54Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 77c884769d
+    name: tec-traefik-77c884769d
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "641250122"
+    uid: 8599bcb2-fa94-44f0-8b3d-8d6e9a542156
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 77c884769d
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 77c884769d
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.acme.dnsChallenge=map[delayBeforeCheck:30
+            provider:cloudflare resolvers:[1.1.1.1 8.8.8.8]]
+          - --certificatesresolvers.leresolver.acme.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.acme.tlsChallenge=false
+          - --certificatesresolvers.zerossl.acme.acme.caServer=https://acme.zerossl.com/v2/DV90
+          - --certificatesresolvers.zerossl.acme.acme.dnsChallenge=map[provider:cloudflare
+            resolvers:[1.1.1.1:53 1.0.0.1:53]]
+          - --certificatesresolvers.zerossl.acme.acme.eab=map[hmacEncoded:JJL92ZjOSkaYU3ou8y0ZT5AaoTO5HMHWd66cqWPT3SigcvOopMTCphWuEHeYKZhdIDV3pTv2kubs_CPlqerNOw
+            kid:5olxrs2Zw_FA5K_dBcYzKA]
+          - --certificatesresolvers.zerossl.acme.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.zerossl.acme.acme.storage=/data/zeroacme.json
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "9"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2025-03-19T18:58:46Z"
+    generation: 8
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 78f7888cc9
+    name: tec-traefik-78f7888cc9
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "845858727"
+    uid: dc931f64-1976-428e-a7bd-9a16f755a1e7
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 78f7888cc9
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 78f7888cc9
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 8
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-10-07T20:32:18Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: 7dc868dddd
+    name: tec-traefik-7dc868dddd
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "498755636"
+    uid: bd9fcf46-8f58-4f44-9f0f-e35a3092f5c1
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: 7dc868dddd
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: 7dc868dddd
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-tec
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=syed@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CLOUDFLARE_EMAIL
+            value: syed@basikmarketing.in
+          - name: CLOUDFLARE_API_KEY
+            value: 3y5dF9-9fPbpsLI21WWmsEBnGPxbOIN8GFlJqemo
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-10-07T20:57:52Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: d8b7ccb96
+    name: tec-traefik-d8b7ccb96
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "528810207"
+    uid: b20af2a8-a4dc-48ea-9bf1-e5fb3b0246a7
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: d8b7ccb96
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: d8b7ccb96
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-tec
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 7
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "3"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-11-06T19:54:36Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: d94c44447
+    name: tec-traefik-d94c44447
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "567817022"
+    uid: 18aaaa49-dcd3-493e-a0f7-df975535040e
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: d94c44447
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: d94c44447
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 6
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "5"
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2025-03-05T12:02:02Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      pod-template-hash: f7f69f958
+    name: tec-traefik-f7f69f958
+    namespace: traefik
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tec-traefik
+      uid: f75b6e1e-1ece-444b-a70d-cda7b6fa474e
+    resourceVersion: "641249365"
+    uid: 9a9af636-08b4-4727-8d01-3afcd5899e52
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tec-traefik-traefik
+        app.kubernetes.io/name: traefik
+        pod-template-hash: f7f69f958
+    template:
+      metadata:
+        annotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9100"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: tec-traefik-traefik
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: traefik
+          helm.sh/chart: traefik-30.1.0
+          pod-template-hash: f7f69f958
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/nodegroup
+                  operator: In
+                  values:
+                  - private-nodes-eks-platform
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - --global.checknewversion
+          - --global.sendanonymoususage
+          - --entryPoints.metrics.address=:9100/tcp
+          - --entryPoints.traefik.address=:9000/tcp
+          - --entryPoints.web.address=:8000/tcp
+          - --entryPoints.websecure.address=:8443/tcp
+          - --api.dashboard=true
+          - --ping=true
+          - --metrics.prometheus=true
+          - --metrics.prometheus.entrypoint=metrics
+          - --metrics.prometheus.addRoutersLabels=true
+          - --metrics.prometheus.addEntryPointsLabels=true
+          - --metrics.prometheus.addServicesLabels=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+          - --entryPoints.websecure.http.tls=true
+          - --entryPoints.websecure.http.tls.certResolver=leresolver
+          - --entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+          - --log.level=INFO
+          - --accesslog=true
+          - --accesslog.format=json
+          - --accesslog.fields.defaultmode=keep
+          - --accesslog.fields.names.ClientPort=drop
+          - --accesslog.fields.names.ClientUsername=drop
+          - --accesslog.fields.names.DownstreamStatusLine=drop
+          - --accesslog.fields.names.GzipRatio=drop
+          - --accesslog.fields.names.OriginContentSize=drop
+          - --accesslog.fields.names.OriginDuration=drop
+          - --accesslog.fields.names.OriginStatus=drop
+          - --accesslog.fields.names.OriginStatusLine=drop
+          - --accesslog.fields.names.Overhead=drop
+          - --accesslog.fields.names.RequestContentSize=drop
+          - --accesslog.fields.names.RequestCount=drop
+          - --accesslog.fields.names.RequestHost=drop
+          - --accesslog.fields.names.RequestMethod=drop
+          - --accesslog.fields.names.RequestPath=drop
+          - --accesslog.fields.names.RequestPort=drop
+          - --accesslog.fields.names.RequestProtocol=drop
+          - --accesslog.fields.names.RequestScheme=drop
+          - --accesslog.fields.names.RouterName=drop
+          - --accesslog.fields.names.ServiceAddr=drop
+          - --accesslog.fields.names.StartLocal=drop
+          - --accesslog.fields.names.StartUTC=drop
+          - --accesslog.fields.names.TLSCipher=drop
+          - --accesslog.fields.names.TLSVersion=drop
+          - --accesslog.fields.headers.defaultmode=drop
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare
+          - --certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8
+          - --certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+          - --certificatesresolvers.leresolver.acme.tlsChallenge=false
+          - --certificatesresolvers.zerossl.acme.acme.caServer=https://acme.zerossl.com/v2/DV90
+          - --certificatesresolvers.zerossl.acme.acme.dnsChallenge=map[provider:cloudflare
+            resolvers:[1.1.1.1:53 1.0.0.1:53]]
+          - --certificatesresolvers.zerossl.acme.acme.eab=map[hmacEncoded:JJL92ZjOSkaYU3ou8y0ZT5AaoTO5HMHWd66cqWPT3SigcvOopMTCphWuEHeYKZhdIDV3pTv2kubs_CPlqerNOw
+            kid:5olxrs2Zw_FA5K_dBcYzKA]
+          - --certificatesresolvers.zerossl.acme.acme.email=naveen@basikmarketing.in
+          - --certificatesresolvers.zerossl.acme.acme.storage=/data/zeroacme.json
+          - --providers.file.filename=/config/config.yaml
+          - --serversTransport.insecureSkipVerify=true
+          env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                divisor: "1"
+                resource: limits.memory
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+          image: docker.io/traefik:v3.1.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: tec-traefik
+          ports:
+          - containerPort: 9100
+            name: metrics
+            protocol: TCP
+          - containerPort: 9000
+            name: traefik
+            protocol: TCP
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          - containerPort: 8443
+            name: websecure
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 600Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /config
+            name: tec-traefik-configs
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        serviceAccount: tec-traefik
+        serviceAccountName: tec-traefik
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - emptyDir: {}
+          name: tmp
+        - configMap:
+            defaultMode: 420
+            name: tec-traefik-configs
+          name: tec-traefik-configs
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: tec-traefik
+      meta.helm.sh/release-namespace: traefik
+    creationTimestamp: "2024-10-07T20:32:18Z"
+    labels:
+      app.kubernetes.io/instance: tec-traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-30.1.0
+      k8slens-edit-resource-version: v2
+    name: tec-traefik
+    namespace: traefik
+    resourceVersion: "1042200601"
+    uid: ab452f33-59c1-49c7-849a-65bf82add328
+  spec:
+    maxReplicas: 10
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 60
+          type: Utilization
+      type: Resource
+    minReplicas: 3
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: tec-traefik
+  status:
+    conditions:
+    - lastTransitionTime: "2024-10-07T20:32:33Z"
+      message: recent recommendations were higher than current one, applying the highest
+        recent recommendation
+      reason: ScaleDownStabilized
+      status: "True"
+      type: AbleToScale
+    - lastTransitionTime: "2026-07-14T07:42:56Z"
+      message: the HPA was able to successfully calculate a replica count from cpu
+        resource utilization (percentage of request)
+      reason: ValidMetricFound
+      status: "True"
+      type: ScalingActive
+    - lastTransitionTime: "2026-07-15T04:18:06Z"
+      message: the desired replica count is less than the minimum replica count
+      reason: TooFewReplicas
+      status: "True"
+      type: ScalingLimited
+    currentMetrics:
+    - resource:
+        current:
+          averageUtilization: 0
+          averageValue: 16m
+        name: cpu
+      type: Resource
+    currentReplicas: 3
+    desiredReplicas: 3
+    lastScaleTime: "2026-04-07T06:37:06Z"
+kind: List
+metadata:
+  resourceVersion: ""

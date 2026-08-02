@@ -1,0 +1,1259 @@
+---
+# Source: traefik/templates/rbac/serviceaccount.yaml
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: tec-traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+automountServiceAccountToken: false
+---
+# Source: traefik/templates/configmap.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: 'tec-traefik-configs'
+  namespace: traefik
+data:
+  config.yaml: |-
+    http:
+      middlewares:         
+        corsHeader:
+          headers:
+            accessControlAllowCredentials: true
+            accessControlAllowHeaders: 
+            - Accept
+            - Access-Control-Request-Headers 
+            - Access-Control-Request-Method 
+            - Authorization 
+            - Content-Type 
+            - Last-Modified 
+            - Origin 
+            - X-Requested-With
+            - X-Private-Ticket-Token
+            - x-openreplay-sessiontoken
+            - x-meilisearch-client
+            - x-request-origin
+            - X-Sitemap-Token         # MFE Sitemap 
+            - novu-api-version         
+            accessControlExposeHeaders:
+            - X-Total-Count
+            - X-Total-Pages
+            - X-Current-Page
+            - X-Per-Page
+            accessControlAllowMethods: "*"
+            accessControlAllowOriginList: 
+            - https://beta.theesports.club
+            - https://admin.theesports.club
+            - https://admin.alpha.theesports.club
+            - https://tournaments.theesports.club
+            - https://cms.theesports.club
+            - https://theesports.club
+            - https://basikmarketing.in
+            - https://api.theesports.club
+            - https://gossip.gg
+            - http://localhost:3000
+            - http://localhost:8000
+            - https://tec-novu.theesports.club
+            - https://novu.theesports.club
+            - https://gateway.alpha.theesports.club          
+            - https://spartans.alpha.theesports.club
+            - https://gateway.spartans.theesports.club          
+            - https://admin.spartans.theesports.club
+            - https://leads.theesports.club 
+            - https://url.theesports.club
+            - https://payouts.theesports.club
+            - https://strikeworldiitb.com  
+            - https://admin.strikeworldiitb.com 
+            - https://backstage.theesports.club
+            - https://360.basikmarketing.in              
+            accessControlMaxAge: 600
+            addVaryHeader: true
+        fusionauthHeaders:
+          headers:
+            customRequestHeaders:
+              Authorization: uES98ju3UYPdem8gThus7fPeo2snCaeR5JhVnpB835LKPle5pw0VxIbb
+        basic-admin-auth:
+          basicAuth:
+            users:
+              # password - tecadminpassword - hashed with bcrypt
+              - "tec-admin:$2a$12$Tym1UNoJ2xPeULdexzhV1uFXoUHpBv8WnRjz2L01AtzCZQEq9gvEe"
+        strip-service-prefix:
+          # Modifies "/team/hello" to "/hello"
+          replacePathRegex:
+            regex: '^/$1/$1/(.*)'
+            #regex: '^/.*?/(.*)'
+            replacement: '/$1'
+        redirect-to-360:
+          redirectRegex:
+            regex: "^https?://payouts\\.theesports\\.club/(.*)"
+            replacement: "https://360.basikmarketing.in/$1"
+            permanent: false
+        socketHeaders:
+          headers:
+            customRequestHeaders:
+              Connection: "keep-alive, Upgrade"
+              # Connection: "Upgrade"
+              X-Forwarded-Proto: "https"
+              Upgrade: "WebSocket"
+        socket-prefix-rewrite:          
+          replacePathRegex:
+            regex: '^/notifications/'
+            replacement: '/'
+        fusionauth-prefix:
+          # Modifies "/team/hello" to "/hello"
+          replacePathRegex:
+            regex: '^/auth/(.*)'
+            replacement: '/api/$1'
+        security-headers:
+          headers:
+            frameDeny: true
+            browserXssFilter: true
+            contentTypeNosniff: true
+            stsIncludeSubdomains: true
+            stsPreload: true
+            sslRedirect: true            
+        # cloudflare-ipwhitelist:
+        #   ipWhiteList:
+        #     sourceRange:
+        #       - 173.245.48.0/20
+        #       - 103.21.244.0/22
+        #       - 103.22.200.0/22
+        #       - 103.31.4.0/22
+        #       - 141.101.64.0/18
+        #       - 108.162.192.0/18
+        #       - 190.93.240.0/20
+        #       - 188.114.96.0/20
+        #       - 197.234.240.0/22
+        #       - 198.41.128.0/17
+        #       - 162.158.0.0/15
+        #       - 104.16.0.0/13
+        #       - 104.24.0.0/14
+        #       - 172.64.0.0/13
+        #       - 131.0.72.0/22
+        #       - 192.168.0.101
+        rate-limiting:
+          rateLimit:
+            average: 10
+            period: 1s
+            burst: 50
+        # Retry 4 times with exponential backoff
+        retries:
+          retry:
+            attempts: 2
+            initialInterval: 100ms
+        circuit-breaker:
+          circuitBreaker:
+            expression: LatencyAtQuantileMS(50.0) > 1000 || ResponseCodeRatio(400, 600, 0, 600) > 0.5 || NetworkErrorRatio() > 0.50
+            checkPeriod: 10s
+            fallbackDuration: 30s
+            recoveryDuration: 1m
+        compression:
+          compress:
+            minResponseBodyBytes: 1200
+        buffer:
+          buffering:
+            maxRequestBodyBytes: 2000000  
+            maxResponseBodyBytes: 2000000   # to be measured
+        traefik-jwt-auth-plugin:
+          plugin:
+            jwt:
+              Required: "false"
+              Keys:
+                - |
+                  -----BEGIN PUBLIC KEY-----
+                  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm9HDb5N0iS6iAONVfJYu
+                  uTTp08i7Ho3Xa9s+bkVkfnBfjuEEgpI/qOAOCdEPcQlDnT407mK/YmIqxUSxxNh/
+                  0d4jrv7Q1S22KFmJAY1vlyZKTrOUJdn1MbrWWH8lMJ6sMA6CdhajrjJg81Itjn5S
+                  GXMtYcp0U2HSU67yutPMMOe5J+yMPlYurXA1rpw3L4QRL1YzT8pq0YW+Q3YlJsrp
+                  70CKduXhJbJcfGfq3a+0fQ+Qo1S3eEkwUU1v/OOHzna1aAsUcM1SNwh8Ma6SMnt3
+                  kdTovGNgr59MiI+YM7YY7x4HauDUlNqssLebLLuRcYecPD3ap2Iy+3CiBAu4hMYY
+                  /QIDAQAB
+                  -----END PUBLIC KEY-----
+      routers:
+        dashboardthing:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: PathPrefix(`/dashboard`)
+          middlewares:
+            # - strip-service-prefix
+            - basic-admin-auth
+            # - cloudflare-ipwhitelist
+          service: api@internal
+        traefik-metrics:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: PathPrefix(`/metrics`)
+          middlewares:
+            # - strip-service-prefix
+            # - basic-admin-auth
+          service: prometheus@internal
+      ## TEC Microservice Routers
+        accounting-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/accounts/`) || PathPrefix(`/contract/`) || PathPrefix(`/project/auth`) || PathPrefix(`/section-items/auth`) || PathPrefix(`/reimbursements/auth`) || PathPrefix(`/estimates/auth`) || PathPrefix(`/checklists/auth/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: accounting-service
+        accounts-panel:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`payouts.theesports.club`)"   # match everything on this host
+          middlewares:
+            - redirect-to-360
+          tls:
+            certResolver: leresolver
+          service: noop@internal                    
+        announcement-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/announcements/`) && !PathPrefix(`/announcements/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: announcement-service
+        banner-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/banners/`) && !PathPrefix(`/banners/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+            # - security-headers
+            # - retries
+            # - rate-limiting
+            # - circuit-breaker
+            # - compression
+            # - buffer
+          tls:
+            certResolver: leresolver          
+          service: banner-service
+        basik-360:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`360.basikmarketing.in`) && PathPrefix(`/`)"
+          tls:
+            certResolver: leresolver        
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          service: basik-360         
+        # basik-ui:
+        #   entryPoints:
+        #     - websecure
+        #   rule: "Host(`basikmarketing.in`) || Host(`www.basikmarketing.in`)"
+        #   tls:
+        #     certResolver: leresolver
+        #   service: basik-ui
+        cms-frontend:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`cms.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader 
+          service: cms-frontend         
+        cms-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/cms/`)"
+          middlewares:
+            - strip-service-prefix
+            - corsHeader           
+          service: cms-service       
+        bracketing-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/bracket/`) && !PathPrefix(`/bracket/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: bracketing-service
+        deeplink-fe:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`url.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix          
+          service: deeplink-fe           
+        deeplink-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/deeplink`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix          
+          service: deeplink-service                       
+        event-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/events/`) && !PathPrefix(`/events/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: event-service                       
+        game-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/games/`) && !PathPrefix(`/games/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: game-service
+        gameid-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/gameids/`) && !PathPrefix(`/gameids/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: gameid-service
+        image-upload-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/images/`) || PathPrefix(`/uploads/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: image-upload-service
+        invitation-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/invitation/`) && !PathPrefix(`/invitation/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: invitation-service
+        the-esports-club:
+          entryPoints:
+            - websecure
+          rule: "Host(`theesports.club`) || Host(`www.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader        
+          tls:
+            certResolver: leresolver
+          service: the-esports-club 
+        mixi-admin-panel:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`admin.strikeworldiitb.com`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+          tls:
+            certResolver: leresolver           
+          service: mixi-admin-panel         
+        mixi-sushi:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`strikeworldiitb.com`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+          tls:
+            certResolver: leresolver           
+          service: mixi-sushi                
+        neo4j-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/neo4j/`) && !PathPrefix(`/neo4j/internal/`) && !PathPrefix(`/neo4j/swagger/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: neo4j-service  
+        notification-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/notifications/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: notification-service                
+        participation-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/participations/`) && !PathPrefix(`/participations/internal/`)"
+          middlewares:
+            - corsHeader          
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: participation-service      
+        riot-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/riot/`) || PathPrefix(`/proxy/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: riot-service                 
+        sponsor-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/sponsors/`) && !PathPrefix(`/sponsors/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: sponsor-service
+        team-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/teams/`) && !PathPrefix(`/teams/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: team-service        
+        tec-admin-panel:
+          entryPoints:
+            - websecure
+          rule: "Host(`tournaments.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+          tls:
+            certResolver: leresolver
+          service: tec-admin-panel
+        tournament-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/tournaments/`) && !PathPrefix(`/tournaments/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: tournament-service
+        user-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/users/`) && !PathPrefix(`/users/internal/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: user-service  
+        voting-portal:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.strikeworldiitb.com`) && PathPrefix(`/sushi/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: voting-portal                
+        whatsapp-sender-service:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/wa/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver          
+          service: whatsapp-sender-service
+    ##SPARTANS
+        admin-panel:
+          entryPoints:
+            - websecure
+          rule: "Host(`admin.spartans.theesports.club`) && PathPrefix(`/`) && !PathPrefix(`/lead-generation`)"
+          middlewares:       
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: admin-panel
+        admin-panel-lead-generation:
+          entryPoints:
+            - websecure
+          rule: "Host(`leads.theesports.club`) && PathPrefix(`/`) && !PathPrefix(`/login`)"
+          middlewares:
+            - strip-service-prefix                
+          tls:
+            certResolver: leresolver
+          service: admin-panel-lead-generation         
+        gateway:
+          entryPoints:
+            - websecure
+          rule: "Host(`gateway.spartans.theesports.club`) && PathPrefix(`/`)"
+          middlewares:       
+            - strip-service-prefix         
+          tls:
+            certResolver: leresolver
+          service: gateway
+        messaging:
+          entryPoints:
+            - websecure
+          rule: "Host(`messaging.spartans.theesports.club`) && PathPrefix(`/`)"
+          middlewares:       
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: messaging        
+      ## Platform Services
+        # classquiz-frontend:
+        #   entryPoints:
+        #     - websecure
+        #   # Should prevent any route containing the word "internal" to be blocked
+        #   rule: "Host(`efootballholi.in`) && PathPrefix(`/`)"
+        #   # middlewares:
+        #   #   - corsHeader
+        #   #   - strip-service-prefix
+        #   tls:
+        #     certResolver: leresolver      
+        #   service: classquiz-frontend        
+        # classquiz-api:
+        #   entryPoints:
+        #     - websecure
+        #   # Should prevent any route containing the word "internal" to be blocked
+        #   rule: "Host(`efootballholi.in`) && PathPrefix(`/api`) || PathPrefix(`/openapi.json`) || PathPrefix(`/socket.io`)"
+        #   # middlewares:
+        #   #   - corsHeader
+        #   #   - strip-service-prefix
+        #   tls:
+        #     certResolver: leresolver          
+        #   service: classquiz-api 
+        backstage:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`backstage.theesports.club`) && PathPrefix(`/`)"
+          tls:
+            certResolver: leresolver
+          service: backstage                                 
+        fusionauth-auth:
+          entryPoints:
+            - websecure
+          # Should prevent any route containing the word "internal" to be blocked
+          rule: "Host(`api.theesports.club`) && PathPrefix(`/auth/`) && !PathPrefix(`/{internal:internal}`)"
+          middlewares:
+            - corsHeader
+            - fusionauthHeaders
+            - fusionauth-prefix
+          tls:
+            certResolver: leresolver          
+          service: fusionauth                
+        fusionauth:
+          entryPoints:
+            - websecure
+          rule: "Host(`fusionauth.api.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix
+          tls:
+            certResolver: leresolver
+          service: fusionauth 
+        tec-novu-api:
+          entryPoints:
+            - websecure
+          rule: "Host(`tec-novu-api.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix                   
+          tls:
+            certResolver: leresolver
+          service: tec-novu-api 
+        tec-novu-web:
+          entryPoints:
+            - websecure
+          rule: "Host(`tec-novu.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader        
+            - strip-service-prefix                   
+          tls:
+            certResolver: leresolver
+          service: tec-novu-web
+        tec-novu-ws:
+          entryPoints:
+            - websecure
+          rule: "Host(`tec-novu-ws.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix                   
+          tls:
+            certResolver: leresolver
+          service: tec-novu-ws                                                                             
+        novu-api:
+          entryPoints:
+            - websecure
+          rule: "Host(`novu-api.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: novu-api 
+        novu-web:
+          entryPoints:
+            - websecure
+          rule: "Host(`novu.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: novu-web
+        novu-ws:
+          entryPoints:
+            - websecure
+          rule: "Host(`novu-ws.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: novu-ws 
+        meilisearch:
+          entryPoints:
+            - websecure
+          rule: "Host(`meilisearch.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix
+            - corsHeader          
+          tls:
+            certResolver: leresolver
+          service: meilisearch
+        infisical:
+          entryPoints:
+            - websecure
+          rule: "Host(`infisical.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - strip-service-prefix
+            - corsHeader          
+          tls:
+            certResolver: leresolver
+          service: infisical
+      ## Spartans Platform Services
+        spartans-meilisearch:
+          entryPoints:
+            - websecure
+          rule: "Host(`meilisearch.spartans.theesports.club`) && PathPrefix(`/`)"
+          middlewares:
+            - corsHeader
+            - strip-service-prefix          
+          tls:
+            certResolver: leresolver
+          service: spartans-meilisearch                                            
+      services:
+        # Define how to reach an existing service on our infrastructure
+      ## TEC Microservices Service
+        accounting-service:
+          loadBalancer:
+            servers:
+                - url: http://accounting-service.microservices.svc.cluster.local:8000              
+        accounts-panel:
+          loadBalancer:
+            servers:
+                - url: http://accounts-panel.microservices.svc.cluster.local:3000           
+        announcement-service:
+          loadBalancer:
+            servers:
+                - url: http://announcement-service.microservices.svc.cluster.local:8000
+        banner-service:
+          loadBalancer:
+            servers:
+                - url: http://banner-service.microservices.svc.cluster.local:8001
+        basik-360:
+          loadBalancer:
+            servers:
+                - url: http://basik-360.microservices.svc.cluster.local:3000             
+        # basik-ui:
+        #   loadBalancer:
+        #     servers:
+        #         - url: http://basik-ui.microservices.svc.cluster.local:3000
+        bracketing-service:
+          loadBalancer:
+            servers:
+                - url: http://bracketing-service.microservices.svc.cluster.local:8015
+        cms-frontend:
+          loadBalancer:
+            servers:
+                - url: http://cms-frontend.microservices.svc.cluster.local:3000
+        cms-service:
+          loadBalancer:
+            servers:
+                - url: http://cms-service.microservices.svc.cluster.local:8000               
+        deeplink-fe:
+          loadBalancer:
+            servers:
+                - url: http://deeplink-fe.microservices.svc.cluster.local:3000
+        deeplink-service:
+          loadBalancer:
+            servers:
+                - url: http://deeplink-service.microservices.svc.cluster.local:8000
+        event-service:
+          loadBalancer:
+            servers:
+                - url: http://event-service.microservices.svc.cluster.local:8002                            
+        game-service:
+          loadBalancer:
+            servers:
+                - url: http://game-service.microservices.svc.cluster.local:8003
+        gameid-service:
+          loadBalancer:
+            servers:
+                - url: http://gameid-service.microservices.svc.cluster.local:8004
+        image-upload-service:
+          loadBalancer:
+            servers:
+                - url: http://image-upload-service.microservices.svc.cluster.local:8005
+        invitation-service:
+          loadBalancer:
+            servers:
+                - url: http://invitation-service.microservices.svc.cluster.local:8006
+        the-esports-club:
+          loadBalancer:
+            servers:
+                - url: http://the-esports-club.microservices.svc.cluster.local:3000  
+        mixi-admin-panel:
+          loadBalancer:
+            servers:
+                - url: http://mixi-admin-panel.microservices.svc.cluster.local:3000              
+        mixi-sushi:
+          loadBalancer:
+            servers:
+                - url: http://mixi-sushi.microservices.svc.cluster.local:3000                                         
+        neo4j-service:
+          loadBalancer:
+            servers:
+                - url: http://neo4j-service.microservices.svc.cluster.local:8016  
+        notification-service:
+          loadBalancer:
+            servers:
+                - url: http://notification-service.microservices.svc.cluster.local:8007                       
+        participation-service:
+          loadBalancer:
+            servers:
+                - url: http://participation-service.microservices.svc.cluster.local:8008            
+        riot-service:
+          loadBalancer:
+            servers:
+                - url: http://riot-service.microservices.svc.cluster.local:8009                            
+        sponsor-service:
+          loadBalancer:
+            servers:
+                - url: http://sponsor-service.microservices.svc.cluster.local:8010
+        team-service:
+          loadBalancer:
+            servers:
+                - url: http://team-service.microservices.svc.cluster.local:8011
+        tec-admin-panel:
+          loadBalancer:
+            servers:
+                - url: http://tec-admin-panel.microservices.svc.cluster.local:3000                          
+        tournament-service:
+          loadBalancer:
+            servers:
+                - url: http://tournament-service.microservices.svc.cluster.local:8012     
+        user-service:
+          loadBalancer:
+            servers:
+                - url: http://user-service.microservices.svc.cluster.local:8013
+        voting-portal:
+          loadBalancer:
+            servers:
+                - url: http://voting-portal.microservices.svc.cluster.local:8017
+        whatsapp-sender-service:
+          loadBalancer:
+            servers:
+                - url: http://whatsapp-sender-service.microservices.svc.cluster.local:8014
+    ##SPARTANS
+        admin-panel:
+          loadBalancer:
+            servers:
+                - url: http://admin-panel.spartans.svc.cluster.local:3000
+        admin-panel-lead-generation:
+          loadBalancer:
+            servers:
+                - url: http://admin-panel.spartans.svc.cluster.local:3000                            
+        gateway:
+          loadBalancer:
+            servers:
+                - url: http://gateway.spartans.svc.cluster.local:50001
+        messaging:
+          loadBalancer:
+            servers:
+                - url: http://messaging.spartans.svc.cluster.local:50002
+      ## TEC Platform Services
+        # classquiz-frontend: 
+        #   loadBalancer:
+        #     servers:
+        #         - url: http://classquiz-frontend.classquiz.svc.cluster.local:3000 
+        # classquiz-api: 
+        #   loadBalancer:
+        #     servers:
+        #         - url: http://classquiz-api.classquiz.svc.cluster.local:80 
+        backstage:
+          loadBalancer:
+            servers:
+                - url: http://backstage.backstage.svc.cluster.local:7007                    
+        fusionauth:
+          loadBalancer:
+            servers:
+                - url: http://fusionauth.microservices.svc.cluster.local:9011
+        tec-novu-api:
+          loadBalancer:
+            servers:
+                - url: http://novu-api.tec-novu.svc.cluster.local:3000   
+        tec-novu-web:
+          loadBalancer:
+            servers:
+                - url: http://novu-web.tec-novu.svc.cluster.local:4200 
+        tec-novu-ws:
+          loadBalancer:
+            servers:
+                - url: http://novu-ws.tec-novu.svc.cluster.local:3002                                            
+        novu-api:
+          loadBalancer:
+            servers:
+                - url: http://novu-api.novu.svc.cluster.local:3000   
+        novu-web:
+          loadBalancer:
+            servers:
+                - url: http://novu-web.novu.svc.cluster.local:4200 
+        novu-ws:
+          loadBalancer:
+            servers:
+                - url: http://novu-ws.novu.svc.cluster.local:3002     
+        meilisearch:
+          loadBalancer:
+            servers:
+                - url: http://meilisearch.microservices.svc.cluster.local:7700
+        infisical:
+          loadBalancer:
+            servers:
+                - url: http://infisical-infisical.infisical.svc.cluster.local:8080
+      ## Spartans Platform Services                                                                                             
+        spartans-meilisearch:
+          loadBalancer:
+            servers:
+                - url: http://meilisearch.spartans.svc.cluster.local:7700
+---
+# Source: traefik/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tec-traefik
+  namespace: traefik
+  annotations:
+    helm.sh/resource-policy: keep
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "128Mi"
+  storageClassName: "traefik-efs-sc"
+---
+# Source: traefik/templates/rbac/clusterrole.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tec-traefik-traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslices
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingressclasses
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses/status
+    verbs:
+      - update
+  - apiGroups:
+      - traefik.io
+    resources:
+      - ingressroutes
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewares
+      - middlewaretcps
+      - serverstransports
+      - serverstransporttcps
+      - tlsoptions
+      - tlsstores
+      - traefikservices
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: traefik/templates/rbac/clusterrolebinding.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tec-traefik-traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tec-traefik-traefik
+subjects:
+  - kind: ServiceAccount
+    name: tec-traefik
+    namespace: traefik
+---
+# Source: traefik/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: tec-traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    alb.ingress.kubernetes.io/aws-load-balancer-type: nlb
+    alb.ingress.kubernetes.io/scheme: internal
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+  ports:
+  - port: 443
+    name: "websecure"
+    targetPort: websecure
+    protocol: TCP
+---
+# Source: traefik/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tec-traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: traefik
+      app.kubernetes.io/instance: tec-traefik-traefik
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  minReadySeconds: 0
+  template: 
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "9100"
+      labels:
+        app.kubernetes.io/name: traefik
+        app.kubernetes.io/instance: tec-traefik-traefik
+        helm.sh/chart: traefik-30.1.0
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: tec-traefik
+      automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 60
+      hostNetwork: false
+      containers:
+      - image: docker.io/traefik:v3.1.2
+        imagePullPolicy: IfNotPresent
+        name: tec-traefik
+        resources:
+          limits:
+            memory: 600Mi
+          requests:
+            cpu: 500m
+            memory: 600Mi
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          failureThreshold: 1
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          failureThreshold: 3
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        lifecycle:
+        ports:
+        - name: "metrics"
+          containerPort: 9100
+          protocol: "TCP"
+        - name: "traefik"
+          containerPort: 9000
+          protocol: "TCP"
+        - name: "web"
+          containerPort: 8000
+          protocol: "TCP"
+        - name: "websecure"
+          containerPort: 8443
+          protocol: "TCP"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: tmp
+            mountPath: /tmp
+          - name: tec-traefik-configs
+            mountPath: /config
+            readOnly: true
+        args:
+          - "--global.checknewversion"
+          - "--global.sendanonymoususage"
+          - "--entryPoints.metrics.address=:9100/tcp"
+          - "--entryPoints.traefik.address=:9000/tcp"
+          - "--entryPoints.web.address=:8000/tcp"
+          - "--entryPoints.websecure.address=:8443/tcp"
+          - "--api.dashboard=true"
+          - "--ping=true"
+          - "--metrics.prometheus=true"
+          - "--metrics.prometheus.entrypoint=metrics"
+          - "--metrics.prometheus.addRoutersLabels=true"
+          - "--metrics.prometheus.addEntryPointsLabels=true"
+          - "--metrics.prometheus.addServicesLabels=true"
+          - "--providers.kubernetescrd"
+          - "--providers.kubernetesingress"
+          - "--entryPoints.websecure.http.tls=true"
+          - "--entryPoints.websecure.http.tls.certResolver=leresolver"
+          - "--entryPoints.websecure.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32"
+          - "--entryPoints.websecure.proxyProtocol.trustedIPs=10.0.0.0/16"
+          - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=0"
+          - "--entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0"
+          - "--entryPoints.websecure.transport.respondingTimeouts.idleTimeout=0"
+          - "--log.level=INFO"
+          - "--accesslog=true"
+          - "--accesslog.format=json"
+          - "--accesslog.fields.defaultmode=keep"
+          - "--accesslog.fields.names.ClientPort=drop"
+          - "--accesslog.fields.names.ClientUsername=drop"
+          - "--accesslog.fields.names.DownstreamStatusLine=drop"
+          - "--accesslog.fields.names.GzipRatio=drop"
+          - "--accesslog.fields.names.OriginContentSize=drop"
+          - "--accesslog.fields.names.OriginDuration=drop"
+          - "--accesslog.fields.names.OriginStatus=drop"
+          - "--accesslog.fields.names.OriginStatusLine=drop"
+          - "--accesslog.fields.names.Overhead=drop"
+          - "--accesslog.fields.names.RequestContentSize=drop"
+          - "--accesslog.fields.names.RequestCount=drop"
+          - "--accesslog.fields.names.RequestHost=drop"
+          - "--accesslog.fields.names.RequestMethod=drop"
+          - "--accesslog.fields.names.RequestPath=drop"
+          - "--accesslog.fields.names.RequestPort=drop"
+          - "--accesslog.fields.names.RequestProtocol=drop"
+          - "--accesslog.fields.names.RequestScheme=drop"
+          - "--accesslog.fields.names.RouterName=drop"
+          - "--accesslog.fields.names.ServiceAddr=drop"
+          - "--accesslog.fields.names.StartLocal=drop"
+          - "--accesslog.fields.names.StartUTC=drop"
+          - "--accesslog.fields.names.TLSCipher=drop"
+          - "--accesslog.fields.names.TLSVersion=drop"
+          - "--accesslog.fields.headers.defaultmode=drop"
+          - "--certificatesresolvers.leresolver.acme.dnsChallenge.delayBeforeCheck=30"
+          - "--certificatesresolvers.leresolver.acme.dnsChallenge.provider=cloudflare"
+          - "--certificatesresolvers.leresolver.acme.dnsChallenge.resolvers=1.1.1.1,8.8.8.8"
+          - "--certificatesresolvers.leresolver.acme.email=naveen@basikmarketing.in"
+          - "--certificatesresolvers.leresolver.acme.storage=/data/acme.json"
+          - "--certificatesresolvers.leresolver.acme.tlsChallenge=false"
+          - "--providers.file.filename=/config/config.yaml"
+          - "--serversTransport.insecureSkipVerify=true"
+        env:
+          - name: GOMEMLIMIT
+            valueFrom:
+              resourceFieldRef:
+                resource: limits.memory
+                divisor: '1'
+          - name: CF_API_EMAIL
+            value: naveen@basikmarketing.in
+          - name: CF_API_KEY
+            value: 41e691994f91ec2117aeb43496e0b69f9d1c1
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tec-traefik
+        - name: tmp
+          emptyDir: {}
+        - name: tec-traefik-configs
+          configMap:
+            name: tec-traefik-configs
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: eks.amazonaws.com/nodegroup
+                operator: In
+                values:
+                - private-nodes-eks-platform
+      securityContext:
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+---
+# Source: traefik/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tec-traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tec-traefik
+  minReplicas: 3
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 70
+          type: Utilization
+      type: Resource
+---
+# Source: traefik/templates/ingressclass.yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: tec-traefik-traefik
+    helm.sh/chart: traefik-30.1.0
+    app.kubernetes.io/managed-by: Helm
+  name: tec-traefik
+spec:
+  controller: traefik.io/ingress-controller
+

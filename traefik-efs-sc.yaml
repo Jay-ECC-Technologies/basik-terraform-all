@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: traefik-efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-035d8b731abd416ba
+  directoryPerms: "700"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

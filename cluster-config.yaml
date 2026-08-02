@@ -1,0 +1,90 @@
+cluster:
+  accessConfig:
+    authenticationMode: API_AND_CONFIG_MAP
+  arn: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+  certificateAuthority:
+    data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUTV6dElEOVRSeDR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpBM01UUXdOek14TkRSYUZ3MHpOakEzTVRFd056TTJORFJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURTZWZtVXJtejhSd2tpTkJMNStYNHo5K2FQa0pYanJWVGJVdkk4UkNoT1R1c09RL0lOSHdScHFEeE8KMWxydTlEOWJ6bEl6Si9NVURselNudmx2a05LeTFPM0VSbUFNRVdseGFUSWlYTHhPc1BRbmNaQmd6akxWS21tWApKNitsWlU5aEV0VTdwcVJ2cEpHT3RRWWZsYTV4SGJ4VjBjSkhORXpUa254aDEzVllSbjBWY3JzcmpLVitXYkxNCmlRQW5iT3phN0YyZ2tiNmc2MGx6ajNxK0tpbmZWRmtSVzdqYk1wRXh1RGNlNlpOYzJWR0Z3S3VtS29CazlGSXIKK2tnMTFFU0xSTmxaUmJqOHJLTUNCVTdyRmFNYlByZHBaUWxNK0Myd0w2WVVGR3BuNUZjSkR5T1JJTjRPeHdPWQpmdXQ0OGV3ZXkyK0xlUE5zUTlLdks4RmZsMFhiQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUV3I5WVRQdzJ0Q3Z2eGtzeHB6WkRuZlQ1cHVqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQzNabElYNlRnbgpaQm1Pd3RFaW1TdVhFWGtaLytETHNYNjNuOHRxbTJhSG5EZStoeDFBeUdTakc5dWd1NmR2Y1lpZEtBTFNQVWlRClJJRU4rTmN3KzFSZ1h3YWd4Yy9hb1ZOTmIyTU1kaXRNdWFCVjVkSVhvVVdYeG9vcHgwQmVUaEtuNkUvRERsK00KVUV1TlpFSHdyZFdPQ0xNenBtMnhLTllSSWdTUGk3dFdlamx1NStaTTAzR2lBRHFBaGNmVUFTbTFZVW54VVJlQQpzUGU0am9FcjVMR0RMSjJVUUtOSE5VUVA1Z2xWQ0tzZDZuLzdlQnE1dnVBNmNGY1VqTTVPUkhEbDJUcyttRFFuCjFCMW82ZFNKYk9ZSitTRG5VYjhtaXFxWXRQZlRZNStPRGxpZ29nTXA3NmhvaXBnczlaUm10NWlXY2d6NTFtOWMKeGdRT09EQlJ1d3BzCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  computeConfig:
+    enabled: false
+    nodePools: []
+  createdAt: '2026-07-14T13:01:19.844000+05:30'
+  encryptionConfig:
+  - provider:
+      keyArn: arn:aws:kms:ap-south-1:441718104055:key/0f6e1c04-4a34-45c4-a50f-e5a7f30f977d
+    resources:
+    - secrets
+  endpoint: https://20F02EAF2177FDF94556FF0A68CAFF0A.gr7.ap-south-1.eks.amazonaws.com
+  identity:
+    oidc:
+      issuer: https://oidc.eks.ap-south-1.amazonaws.com/id/20F02EAF2177FDF94556FF0A68CAFF0A
+  kubernetesNetworkConfig:
+    elasticLoadBalancing:
+      enabled: false
+    ipFamily: ipv4
+    serviceIpv4Cidr: 172.20.0.0/16
+  logging:
+    clusterLogging:
+    - enabled: true
+      types:
+      - api
+      - audit
+      - authenticator
+    - enabled: false
+      types:
+      - controllerManager
+      - scheduler
+  name: basik-eks-cluster-v135
+  platformVersion: eks.18
+  resourcesVpcConfig:
+    clusterSecurityGroupId: sg-042659df6db1531b4
+    endpointPrivateAccess: true
+    endpointPublicAccess: true
+    publicAccessCidrs:
+    - 0.0.0.0/0
+    securityGroupIds:
+    - sg-05b37d6b6e6c78a6d
+    subnetIds:
+    - subnet-06a80394172cb5462
+    - subnet-0e50734a6dc56d546
+    vpcId: vpc-0d25141645715b7e5
+  roleArn: arn:aws:iam::441718104055:role/basik-eks-cluster-v135-cluster-db704f3966f7ff90edc7e2ae71
+  status: ACTIVE
+  storageConfig:
+    blockStorage:
+      enabled: false
+  tags:
+    Cluster: basik-eks-cluster-v135
+    Environment: production
+    ManagedBy: Terraform
+    Owner: Expert Cloud Consulting
+    Project: basik-eks
+    Terraform: 'true'
+  upgradePolicy:
+    supportType: EXTENDED
+  version: '1.35'
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUTV6dElEOVRSeDR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpBM01UUXdOek14TkRSYUZ3MHpOakEzTVRFd056TTJORFJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURTZWZtVXJtejhSd2tpTkJMNStYNHo5K2FQa0pYanJWVGJVdkk4UkNoT1R1c09RL0lOSHdScHFEeE8KMWxydTlEOWJ6bEl6Si9NVURselNudmx2a05LeTFPM0VSbUFNRVdseGFUSWlYTHhPc1BRbmNaQmd6akxWS21tWApKNitsWlU5aEV0VTdwcVJ2cEpHT3RRWWZsYTV4SGJ4VjBjSkhORXpUa254aDEzVllSbjBWY3JzcmpLVitXYkxNCmlRQW5iT3phN0YyZ2tiNmc2MGx6ajNxK0tpbmZWRmtSVzdqYk1wRXh1RGNlNlpOYzJWR0Z3S3VtS29CazlGSXIKK2tnMTFFU0xSTmxaUmJqOHJLTUNCVTdyRmFNYlByZHBaUWxNK0Myd0w2WVVGR3BuNUZjSkR5T1JJTjRPeHdPWQpmdXQ0OGV3ZXkyK0xlUE5zUTlLdks4RmZsMFhiQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUV3I5WVRQdzJ0Q3Z2eGtzeHB6WkRuZlQ1cHVqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQzNabElYNlRnbgpaQm1Pd3RFaW1TdVhFWGtaLytETHNYNjNuOHRxbTJhSG5EZStoeDFBeUdTakc5dWd1NmR2Y1lpZEtBTFNQVWlRClJJRU4rTmN3KzFSZ1h3YWd4Yy9hb1ZOTmIyTU1kaXRNdWFCVjVkSVhvVVdYeG9vcHgwQmVUaEtuNkUvRERsK00KVUV1TlpFSHdyZFdPQ0xNenBtMnhLTllSSWdTUGk3dFdlamx1NStaTTAzR2lBRHFBaGNmVUFTbTFZVW54VVJlQQpzUGU0am9FcjVMR0RMSjJVUUtOSE5VUVA1Z2xWQ0tzZDZuLzdlQnE1dnVBNmNGY1VqTTVPUkhEbDJUcyttRFFuCjFCMW82ZFNKYk9ZSitTRG5VYjhtaXFxWXRQZlRZNStPRGxpZ29nTXA3NmhvaXBnczlaUm10NWlXY2d6NTFtOWMKeGdRT09EQlJ1d3BzCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://20F02EAF2177FDF94556FF0A68CAFF0A.gr7.ap-south-1.eks.amazonaws.com
+  name: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+users:
+- name: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - ap-south-1
+      - eks
+      - get-token
+      - --cluster-name
+      - basik-eks-cluster-v135
+      - --output
+      - json
+      command: aws
+contexts:
+- context:
+    cluster: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+    user: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+  name: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
+current-context: arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135
