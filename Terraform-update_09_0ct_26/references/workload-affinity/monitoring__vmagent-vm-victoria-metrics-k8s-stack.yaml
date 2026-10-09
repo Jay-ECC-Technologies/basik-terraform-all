@@ -1,0 +1,20 @@
+namespace: monitoring
+workload: vmagent-vm-victoria-metrics-k8s-stack
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - platform
+        - key: topology.kubernetes.io/zone
+          operator: In
+          values:
+          - ap-south-1a
+topologySpreadConstraints: null
+tolerations: null

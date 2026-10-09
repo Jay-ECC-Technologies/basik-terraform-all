@@ -1,0 +1,33 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  amiFamily: AL2023
+  amiSelectorTerms:
+  - id: ami-016df8c2548e4ef7d
+  blockDeviceMappings:
+  - deviceName: /dev/xvda
+    ebs:
+      deleteOnTermination: true
+      encrypted: true
+      volumeSize: 30Gi
+      volumeType: gp3
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2
+    httpTokens: required
+  role: basik-eks-cluster-v135-karpenter-node
+  securityGroupSelectorTerms:
+  - id: sg-012fb286d4898d0f5
+  subnetSelectorTerms:
+  - id: subnet-0ad4c13d8c2a04426
+  - id: subnet-02a7031579abc617a
+  tags:
+    Environment: production
+    ManagedBy: Terraform
+    Name: basik-karpenter-node
+    Owner: Basik
+    Project: basik-eks
+    aws-apn-id: a5ds2cjuxeo5p25u8p6v6zy0j

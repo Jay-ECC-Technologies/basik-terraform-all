@@ -1,0 +1,16 @@
+namespace: monitoring
+workload: vm-victoria-metrics-operator
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - platform
+topologySpreadConstraints: null
+tolerations: null

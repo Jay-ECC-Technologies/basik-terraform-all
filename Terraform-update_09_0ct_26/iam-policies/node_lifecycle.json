@@ -1,0 +1,135 @@
+{
+  "Statement": [
+    {
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:CreateFleet"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ec2:ap-south-1::image/*",
+        "arn:aws:ec2:ap-south-1::snapshot/*",
+        "arn:aws:ec2:ap-south-1:441718104055:security-group/*",
+        "arn:aws:ec2:ap-south-1:441718104055:subnet/*",
+        "arn:aws:ec2:ap-south-1:441718104055:capacity-reservation/*",
+        "arn:aws:ec2:ap-south-1:441718104055:placement-group/*"
+      ],
+      "Sid": "AllowScopedEC2InstanceAccessActions"
+    },
+    {
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:CreateFleet"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned"
+        },
+        "StringLike": {
+          "aws:ResourceTag/karpenter.sh/nodepool": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:ec2:ap-south-1:441718104055:launch-template/*",
+      "Sid": "AllowScopedEC2LaunchTemplateAccessActions"
+    },
+    {
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:CreateFleet",
+        "ec2:CreateLaunchTemplate"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestTag/eks:eks-cluster-name": "basik-eks-cluster-v135",
+          "aws:RequestTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned"
+        },
+        "StringLike": {
+          "aws:RequestTag/karpenter.sh/nodepool": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ec2:ap-south-1:441718104055:fleet/*",
+        "arn:aws:ec2:ap-south-1:441718104055:instance/*",
+        "arn:aws:ec2:ap-south-1:441718104055:volume/*",
+        "arn:aws:ec2:ap-south-1:441718104055:network-interface/*",
+        "arn:aws:ec2:ap-south-1:441718104055:launch-template/*",
+        "arn:aws:ec2:ap-south-1:441718104055:spot-instances-request/*"
+      ],
+      "Sid": "AllowScopedEC2InstanceActionsWithTags"
+    },
+    {
+      "Action": "ec2:CreateTags",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestTag/eks:eks-cluster-name": "basik-eks-cluster-v135",
+          "aws:RequestTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned",
+          "ec2:CreateAction": [
+            "RunInstances",
+            "CreateFleet",
+            "CreateLaunchTemplate"
+          ]
+        },
+        "StringLike": {
+          "aws:RequestTag/karpenter.sh/nodepool": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ec2:ap-south-1:441718104055:fleet/*",
+        "arn:aws:ec2:ap-south-1:441718104055:instance/*",
+        "arn:aws:ec2:ap-south-1:441718104055:volume/*",
+        "arn:aws:ec2:ap-south-1:441718104055:network-interface/*",
+        "arn:aws:ec2:ap-south-1:441718104055:launch-template/*",
+        "arn:aws:ec2:ap-south-1:441718104055:spot-instances-request/*"
+      ],
+      "Sid": "AllowScopedResourceCreationTagging"
+    },
+    {
+      "Action": "ec2:CreateTags",
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "eks:eks-cluster-name",
+            "karpenter.sh/nodeclaim",
+            "Name"
+          ]
+        },
+        "StringEquals": {
+          "aws:ResourceTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned"
+        },
+        "StringEqualsIfExists": {
+          "aws:RequestTag/eks:eks-cluster-name": "basik-eks-cluster-v135"
+        },
+        "StringLike": {
+          "aws:ResourceTag/karpenter.sh/nodepool": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:ec2:ap-south-1:441718104055:instance/*",
+      "Sid": "AllowScopedResourceTagging"
+    },
+    {
+      "Action": [
+        "ec2:TerminateInstances",
+        "ec2:DeleteLaunchTemplate"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned"
+        },
+        "StringLike": {
+          "aws:ResourceTag/karpenter.sh/nodepool": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ec2:ap-south-1:441718104055:instance/*",
+        "arn:aws:ec2:ap-south-1:441718104055:launch-template/*"
+      ],
+      "Sid": "AllowScopedDeletion"
+    }
+  ],
+  "Version": "2012-10-17"
+}

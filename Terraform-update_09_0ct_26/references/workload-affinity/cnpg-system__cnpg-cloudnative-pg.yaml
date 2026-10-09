@@ -1,0 +1,8 @@
+namespace: cnpg-system
+workload: cnpg-cloudnative-pg
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity: null
+topologySpreadConstraints: null
+tolerations: null

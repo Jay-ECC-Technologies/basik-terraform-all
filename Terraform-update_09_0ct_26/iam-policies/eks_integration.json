@@ -1,0 +1,11 @@
+{
+  "Statement": [
+    {
+      "Action": "eks:DescribeCluster",
+      "Effect": "Allow",
+      "Resource": "arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135",
+      "Sid": "AllowAPIServerEndpointDiscovery"
+    }
+  ],
+  "Version": "2012-10-17"
+}

@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: traefik-efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  basePath: /dynamic_provisioning
+  directoryPerms: '700'
+  fileSystemId: fs-01d0e8eba81209ed9
+  gidRangeEnd: '2000'
+  gidRangeStart: '1000'
+  provisioningMode: efs-ap
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

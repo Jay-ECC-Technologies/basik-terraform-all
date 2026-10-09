@@ -1,0 +1,16 @@
+namespace: spartans
+workload: notification
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - spartans
+topologySpreadConstraints: null
+tolerations: null

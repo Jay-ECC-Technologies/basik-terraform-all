@@ -1,0 +1,118 @@
+additionalAnnotations: {}
+additionalClusterRoleRules: []
+additionalLabels: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: karpenter.sh/nodepool
+          operator: DoesNotExist
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - topologyKey: kubernetes.io/hostname
+controller:
+  containerName: controller
+  env: []
+  envFrom: []
+  extraVolumeMounts: []
+  healthProbe:
+    port: 8081
+  image:
+    digest: sha256:723130949e4cab989461ff07d1be4cd781d63515432494641b33c235f300ae23
+    repository: public.ecr.aws/karpenter/controller
+    tag: 1.14.0
+  metrics:
+    port: 8080
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  securityContext:
+    appArmorProfile: {}
+    seLinuxOptions: {}
+    seccompProfile: {}
+  sidecarContainer: []
+  sidecarVolumeMounts: []
+dnsConfig: {}
+dnsPolicy: ClusterFirst
+extraVolumes: []
+fullnameOverride: ""
+hostNetwork: false
+imagePullPolicy: IfNotPresent
+imagePullSecrets: []
+initContainers: {}
+logErrorOutputPaths:
+- stderr
+logLevel: info
+logOutputPaths:
+- stdout
+nameOverride: ""
+nodeSelector:
+  kubernetes.io/os: linux
+podAnnotations: {}
+podDisruptionBudget:
+  maxUnavailable: 1
+  name: karpenter
+podLabels: {}
+podSecurityContext:
+  fsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
+priorityClassName: system-cluster-critical
+replicas: 2
+revisionHistoryLimit: 10
+schedulerName: default-scheduler
+service:
+  annotations: {}
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::441718104055:role/basik-eks-cluster-v135-karpenter-controller
+  create: true
+  name: ""
+serviceMonitor:
+  additionalLabels: {}
+  enabled: false
+  endpointConfig: {}
+  metricRelabelings: []
+  relabelings: []
+settings:
+  amiRefreshInterval: 1m
+  batchIdleDuration: 1s
+  batchMaxDuration: 10s
+  clusterCABundle: ""
+  clusterEndpoint: https://BC630EB78A5F5DBB29DABC07D369ECFE.gr7.ap-south-1.eks.amazonaws.com
+  clusterName: basik-eks-cluster-v135
+  disableClusterStateObservability: false
+  disableDryRun: false
+  eksControlPlane: false
+  enableZonalShift: false
+  featureGates:
+    capacityBuffer: false
+    drift: true
+    nodeOverlay: false
+    nodeRepair: false
+    reservedCapacity: true
+    spotToSpotConsolidation: false
+    staticCapacity: false
+  ignoreDRARequests: true
+  interruptionQueue: ""
+  isolatedVPC: false
+  minValuesPolicy: Strict
+  preferencePolicy: Respect
+  reservedENIs: "0"
+  subnetRefreshInterval: 1m
+  vmMemoryOverheadPercent: 0.075
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+tolerations:
+- key: CriticalAddonsOnly
+  operator: Exists
+topologySpreadConstraints:
+- maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: DoNotSchedule

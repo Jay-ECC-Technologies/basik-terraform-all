@@ -1,0 +1,16 @@
+namespace: infisical
+workload: postgresql
+kind: StatefulSet
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/nodegroup
+          operator: In
+          values:
+          - private-nodes-eks-platform
+topologySpreadConstraints: null
+tolerations: null

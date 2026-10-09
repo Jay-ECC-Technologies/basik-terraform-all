@@ -1,0 +1,485 @@
+data.aws_availability_zones.available: Reading...
+module.eks.module.kms.data.aws_partition.current[0]: Reading...
+module.eks.data.aws_caller_identity.current[0]: Reading...
+module.karpenter_irsa.data.aws_partition.current: Reading...
+module.eks.module.kms.data.aws_caller_identity.current[0]: Reading...
+module.eks.data.aws_partition.current[0]: Reading...
+aws_iam_policy.karpenter_eks_integration: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-eks-integration]
+aws_kms_key.eks: Refreshing state... [id=8f910be4-e4a4-4292-b8c0-78f971dcab24]
+aws_iam_role.karpenter_node: Refreshing state... [id=basik-eks-cluster-v135-karpenter-node]
+aws_iam_policy.karpenter_node_lifecycle: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-node-lifecycle]
+module.eks.module.kms.data.aws_partition.current[0]: Read complete after 0s [id=aws]
+module.karpenter_irsa.data.aws_partition.current: Read complete after 0s [id=aws]
+module.eks.data.aws_partition.current[0]: Read complete after 0s [id=aws]
+data.aws_efs_mount_target.retained_elastic_logging_az1: Reading...
+aws_iam_policy.velero: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-velero-policy]
+data.aws_security_group.retained_efs_elastic_logging: Reading...
+module.eks.module.kms.data.aws_caller_identity.current[0]: Read complete after 0s [id=441718104055]
+aws_efs_file_system.elastic_logging: Refreshing state... [id=fs-059381e008c116fa0]
+module.eks.data.aws_caller_identity.current[0]: Read complete after 0s [id=441718104055]
+aws_iam_policy.karpenter_resource_discovery: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-resource-discovery]
+data.aws_availability_zones.available: Read complete after 0s [id=ap-south-1]
+data.aws_efs_mount_target.retained_traefik_az1: Reading...
+data.aws_efs_mount_target.retained_elastic_logging_az2: Reading...
+data.aws_security_group.retained_efs_elastic_logging: Read complete after 1s [id=sg-0902791582b1dc9e7]
+aws_iam_policy.karpenter_zonal_shift: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-zonal-shift]
+data.aws_vpc.selected: Reading...
+data.aws_efs_mount_target.retained_elastic_logging_az1: Read complete after 1s [id=fsmt-01df40356926d4ee0]
+aws_iam_policy.karpenter_iam_integration: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-iam-integration]
+data.aws_efs_mount_target.retained_traefik_az1: Read complete after 1s [id=fsmt-04424071fabbad9cb]
+data.aws_eks_addon_version.kube_proxy: Reading...
+data.aws_efs_mount_target.retained_elastic_logging_az2: Read complete after 0s [id=fsmt-0911e0b7c4a6cc94a]
+module.eks.data.aws_iam_policy_document.assume_role_policy[0]: Reading...
+module.eks.data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2830595799]
+data.aws_eks_addon_version.coredns: Reading...
+data.aws_eks_addon_version.coredns: Read complete after 0s [id=coredns]
+data.aws_caller_identity.current: Reading...
+data.aws_caller_identity.current: Read complete after 0s [id=441718104055]
+data.aws_security_group.retained_efs_traefik: Reading...
+data.aws_eks_addon_version.kube_proxy: Read complete after 0s [id=kube-proxy]
+data.aws_region.current: Reading...
+data.aws_region.current: Read complete after 0s [id=ap-south-1]
+module.karpenter_irsa.data.aws_caller_identity.current: Reading...
+module.karpenter_irsa.data.aws_caller_identity.current: Read complete after 0s [id=441718104055]
+data.aws_eks_addon_version.ebs_csi: Reading...
+data.aws_security_group.retained_efs_traefik: Read complete after 0s [id=sg-00538764a66034e20]
+module.aws_load_balancer_controller_irsa.data.aws_caller_identity.current: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_caller_identity.current: Read complete after 0s [id=441718104055]
+module.karpenter_irsa.data.aws_region.current: Reading...
+module.karpenter_irsa.data.aws_region.current: Read complete after 0s [id=ap-south-1]
+module.aws_load_balancer_controller_irsa.data.aws_region.current: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_region.current: Read complete after 0s [id=ap-south-1]
+aws_efs_file_system.traefik: Refreshing state... [id=fs-01d0e8eba81209ed9]
+data.aws_vpc.selected: Read complete after 0s [id=vpc-0d25141645715b7e5]
+module.eks.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/eks/basik-eks-cluster-v135/cluster]
+data.aws_eks_addon_version.ebs_csi: Read complete after 0s [id=aws-ebs-csi-driver]
+data.aws_efs_mount_target.retained_traefik_az2: Reading...
+data.aws_eks_addon_version.vpc_cni: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_partition.current: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_partition.current: Read complete after 0s [id=aws]
+module.eks.data.aws_iam_session_context.current[0]: Reading...
+module.eks.data.aws_iam_session_context.current[0]: Read complete after 0s [id=arn:aws:iam::441718104055:user/ECC_Prabhat]
+aws_kms_alias.eks: Refreshing state... [id=alias/basik-eks-cluster-v135]
+aws_security_group.efs_elastic_logging: Refreshing state... [id=sg-0902791582b1dc9e7]
+data.aws_efs_mount_target.retained_traefik_az2: Read complete after 0s [id=fsmt-02d1ab37378f6236a]
+data.aws_eks_addon_version.vpc_cni: Read complete after 0s [id=vpc-cni]
+aws_efs_mount_target.elastic_logging_az1: Refreshing state... [id=fsmt-01df40356926d4ee0]
+aws_efs_access_point.elastic_logging_1: Refreshing state... [id=fsap-0c9e91dcb75058c78]
+aws_efs_access_point.elastic_logging_0: Refreshing state... [id=fsap-0215268943b53fe61]
+aws_efs_mount_target.elastic_logging_az2: Refreshing state... [id=fsmt-0911e0b7c4a6cc94a]
+module.eks.aws_iam_role.this[0]: Refreshing state... [id=basik-eks-cluster-v135-cluster-985f8f5f59ac6c72232c75eee8]
+aws_security_group.efs_traefik: Refreshing state... [id=sg-00538764a66034e20]
+aws_subnet.private_az1: Refreshing state... [id=subnet-0ad4c13d8c2a04426]
+aws_subnet.private_az3: Refreshing state... [id=subnet-02879cdd16cdda262]
+aws_subnet.public: Refreshing state... [id=subnet-0c061b931319d1ac0]
+aws_vpc_endpoint.s3: Refreshing state... [id=vpce-0117122d6f24ef771]
+aws_subnet.private_az2: Refreshing state... [id=subnet-02a7031579abc617a]
+aws_efs_access_point.traefik: Refreshing state... [id=fsap-0f7febe06ed5b38dc]
+aws_efs_mount_target.traefik_az1: Refreshing state... [id=fsmt-04424071fabbad9cb]
+aws_efs_mount_target.traefik_az2: Refreshing state... [id=fsmt-02d1ab37378f6236a]
+module.eks.aws_security_group.node[0]: Refreshing state... [id=sg-012fb286d4898d0f5]
+module.eks.aws_security_group.cluster[0]: Refreshing state... [id=sg-06e64a07345a59aa8]
+module.aws_load_balancer_controller_irsa.data.aws_iam_policy_document.load_balancer_controller[0]: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_iam_policy_document.load_balancer_controller[0]: Read complete after 0s [id=1541424006]
+data.aws_subnets.public: Reading...
+data.aws_subnets.private: Reading...
+module.aws_load_balancer_controller_irsa.aws_iam_policy.load_balancer_controller[0]: Refreshing state... [id=arn:aws:iam::441718104055:policy/AmazonEKS_AWS_Load_Balancer_Controller-7b8296f7561bcff84f8c882cc5]
+module.eks.aws_security_group_rule.cluster["ingress_nodes_443"]: Refreshing state... [id=sgrule-3072132649]
+module.eks.aws_security_group_rule.cluster["egress_all"]: Refreshing state... [id=sgrule-3548930475]
+module.eks.aws_security_group_rule.cluster["ingress_all"]: Refreshing state... [id=sgrule-3285569877]
+module.eks.aws_security_group_rule.node["ingress_cluster_8443_webhook"]: Refreshing state... [id=sgrule-3568064231]
+data.aws_subnets.public: Read complete after 0s [id=ap-south-1]
+module.eks.aws_security_group_rule.node["ingress_cluster_6443_webhook"]: Refreshing state... [id=sgrule-3354421958]
+module.eks.aws_security_group_rule.node["ingress_cluster_kubelet"]: Refreshing state... [id=sgrule-3340174169]
+module.eks.aws_security_group_rule.node["egress_all"]: Refreshing state... [id=sgrule-2828894143]
+data.aws_subnets.private: Read complete after 0s [id=ap-south-1]
+module.eks.aws_security_group_rule.node["ingress_all"]: Refreshing state... [id=sgrule-3648262198]
+module.eks.aws_security_group_rule.node["ingress_nodes_ephemeral"]: Refreshing state... [id=sgrule-2940496238]
+module.eks.aws_security_group_rule.node["ingress_cluster_9443_webhook"]: Refreshing state... [id=sgrule-2953667884]
+module.eks.aws_security_group_rule.node["ingress_cluster_10251_webhook"]: Refreshing state... [id=sgrule-4083045154]
+module.eks.aws_security_group_rule.node["ingress_cluster_443"]: Refreshing state... [id=sgrule-3522851753]
+module.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]: Refreshing state... [id=sgrule-3385339111]
+module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]: Refreshing state... [id=sgrule-1838649096]
+module.eks.aws_security_group_rule.node["ingress_cluster_4443_webhook"]: Refreshing state... [id=sgrule-246549840]
+aws_iam_role_policy_attachment.cni: Refreshing state... [id=basik-eks-cluster-v135-karpenter-node/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_iam_role_policy_attachment.ssm: Refreshing state... [id=basik-eks-cluster-v135-karpenter-node/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+aws_iam_instance_profile.karpenter: Refreshing state... [id=basik-eks-cluster-v135-karpenter]
+aws_iam_role_policy_attachment.worker: Refreshing state... [id=basik-eks-cluster-v135-karpenter-node/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.ecr: Refreshing state... [id=basik-eks-cluster-v135-karpenter-node/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].data.aws_iam_policy_document.assume_role_policy[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2560088296]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].data.aws_iam_policy_document.assume_role_policy[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].data.aws_iam_policy_document.assume_role_policy[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2560088296]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].data.aws_iam_policy_document.assume_role_policy[0]: Read complete after 0s [id=2560088296]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_iam_role.this[0]: Refreshing state... [id=platform-ng-role]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_iam_role.this[0]: Refreshing state... [id=tec-ng-role]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_iam_role.this[0]: Refreshing state... [id=spartans-ng-role]
+module.eks.aws_iam_role_policy_attachment.this["AmazonEKSClusterPolicy"]: Refreshing state... [id=basik-eks-cluster-v135-cluster-985f8f5f59ac6c72232c75eee8/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+module.eks.module.kms.data.aws_iam_policy_document.this[0]: Reading...
+module.eks.module.kms.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=4090175040]
+module.eks.module.kms.aws_kms_key.this[0]: Refreshing state... [id=793ea5bf-4924-4fbe-ba84-86030a29b490]
+module.eks.module.kms.aws_kms_alias.this["cluster"]: Refreshing state... [id=alias/eks/basik-eks-cluster-v135]
+module.eks.aws_iam_policy.cluster_encryption[0]: Refreshing state... [id=arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-cluster-ClusterEncryption5761243b1a62ec5abb0cfa7b2e]
+module.eks.aws_eks_cluster.this[0]: Refreshing state... [id=basik-eks-cluster-v135]
+module.eks.aws_ec2_tag.cluster_primary_security_group["aws-apn-id"]: Refreshing state... [id=sg-0d9042988361052cd,aws-apn-id]
+module.eks.aws_eks_access_entry.this["cluster_creator"]: Refreshing state... [id=basik-eks-cluster-v135:arn:aws:iam::441718104055:user/ECC_Admin]
+module.eks.data.tls_certificate.this[0]: Reading...
+module.eks.aws_ec2_tag.cluster_primary_security_group["Cluster"]: Refreshing state... [id=sg-0d9042988361052cd,Cluster]
+module.eks.aws_ec2_tag.cluster_primary_security_group["Project"]: Refreshing state... [id=sg-0d9042988361052cd,Project]
+module.eks.aws_ec2_tag.cluster_primary_security_group["Owner"]: Refreshing state... [id=sg-0d9042988361052cd,Owner]
+module.eks.aws_ec2_tag.cluster_primary_security_group["Environment"]: Refreshing state... [id=sg-0d9042988361052cd,Environment]
+module.eks.aws_ec2_tag.cluster_primary_security_group["ManagedBy"]: Refreshing state... [id=sg-0d9042988361052cd,ManagedBy]
+module.eks.aws_ec2_tag.cluster_primary_security_group["Terraform"]: Refreshing state... [id=sg-0d9042988361052cd,Terraform]
+module.eks.time_sleep.this[0]: Refreshing state... [id=2026-08-02T12:05:18Z]
+module.eks.data.tls_certificate.this[0]: Read complete after 0s [id=1e3a331631939a1ae4a625cd4244a4963dabbfa2]
+module.eks.aws_iam_openid_connect_provider.oidc_provider[0]: Refreshing state... [id=arn:aws:iam::441718104055:oidc-provider/oidc.eks.ap-south-1.amazonaws.com/id/BC630EB78A5F5DBB29DABC07D369ECFE]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].module.user_data.null_resource.validate_cluster_service_cidr: Refreshing state... [id=1102034776639570992]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].module.user_data.null_resource.validate_cluster_service_cidr: Refreshing state... [id=8910033568917999757]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].module.user_data.null_resource.validate_cluster_service_cidr: Refreshing state... [id=6130091068945654410]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].data.aws_ssm_parameter.ami[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].data.aws_ssm_parameter.ami[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].data.aws_ssm_parameter.ami[0]: Reading...
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=spartans-ng-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=spartans-ng-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Refreshing state... [id=tec-ng-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=platform-ng-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_iam_role_policy_attachment.this["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=tec-ng-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Refreshing state... [id=spartans-ng-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].data.aws_ssm_parameter.ami[0]: Read complete after 0s [id=/aws/service/eks/optimized-ami/1.35/amazon-linux-2023/x86_64/standard/recommended/release_version]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].data.aws_ssm_parameter.ami[0]: Read complete after 0s [id=/aws/service/eks/optimized-ami/1.35/amazon-linux-2023/x86_64/standard/recommended/release_version]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].data.aws_ssm_parameter.ami[0]: Read complete after 0s [id=/aws/service/eks/optimized-ami/1.35/amazon-linux-2023/x86_64/standard/recommended/release_version]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=tec-ng-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_iam_role_policy_attachment.this["AmazonEKS_CNI_Policy"]: Refreshing state... [id=platform-ng-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_iam_role_policy_attachment.this["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=platform-ng-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+module.eks.aws_eks_access_policy_association.this["cluster_creator_admin"]: Refreshing state... [id=basik-eks-cluster-v135#arn:aws:iam::441718104055:user/ECC_Admin#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy]
+module.eks.aws_iam_role_policy_attachment.cluster_encryption[0]: Refreshing state... [id=basik-eks-cluster-v135-cluster-985f8f5f59ac6c72232c75eee8/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-cluster-ClusterEncryption5761243b1a62ec5abb0cfa7b2e]
+data.aws_iam_policy_document.efs_csi_assume_role: Reading...
+data.aws_iam_policy_document.ebs_csi_assume_role: Reading...
+data.aws_iam_policy_document.ebs_csi_assume_role: Read complete after 0s [id=2432941482]
+data.aws_iam_policy_document.efs_csi_assume_role: Read complete after 0s [id=579639305]
+aws_iam_role.velero: Refreshing state... [id=basik-eks-cluster-v135-velero-irsa]
+aws_iam_role.ebs_csi: Refreshing state... [id=basik-eks-cluster-v135-ebs-csi]
+aws_iam_role.efs_csi: Refreshing state... [id=basik-eks-cluster-v135-efs-csi]
+module.aws_load_balancer_controller_irsa.data.aws_iam_policy_document.this[0]: Reading...
+module.karpenter_irsa.data.aws_iam_policy_document.this[0]: Reading...
+module.aws_load_balancer_controller_irsa.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=2770645144]
+module.karpenter_irsa.data.aws_iam_policy_document.this[0]: Read complete after 0s [id=747811978]
+module.aws_load_balancer_controller_irsa.aws_iam_role.this[0]: Refreshing state... [id=basik-eks-cluster-v135-aws-load-balancer-controller]
+module.karpenter_irsa.aws_iam_role.this[0]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_launch_template.this[0]: Refreshing state... [id=lt-057726ade3539b45a]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_launch_template.this[0]: Refreshing state... [id=lt-078aef1100c5a5d73]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_launch_template.this[0]: Refreshing state... [id=lt-0fb530dc964c9d730]
+aws_eks_addon.metrics_server: Refreshing state... [id=basik-eks-cluster-v135:metrics-server]
+aws_eks_addon.vpc_cni: Refreshing state... [id=basik-eks-cluster-v135:vpc-cni]
+data.aws_eks_cluster_auth.this: Reading...
+data.aws_eks_cluster_auth.this: Read complete after 0s [id=basik-eks-cluster-v135]
+aws_eks_addon.coredns: Refreshing state... [id=basik-eks-cluster-v135:coredns]
+aws_eks_addon.snapshot_controller: Refreshing state... [id=basik-eks-cluster-v135:snapshot-controller]
+aws_eks_addon.kube_proxy: Refreshing state... [id=basik-eks-cluster-v135:kube-proxy]
+module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_eks_node_group.this[0]: Refreshing state... [id=basik-eks-cluster-v135:private-nodes-eks-spartans]
+module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_eks_node_group.this[0]: Refreshing state... [id=basik-eks-cluster-v135:private-nodes-eks-tec]
+module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_eks_node_group.this[0]: Refreshing state... [id=basik-eks-cluster-v135:private-nodes-eks-platform]
+aws_iam_role_policy_attachment.efs_csi: Refreshing state... [id=basik-eks-cluster-v135-efs-csi/arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy]
+aws_eks_addon.efs_csi: Refreshing state... [id=basik-eks-cluster-v135:aws-efs-csi-driver]
+aws_iam_role_policy_attachment.velero: Refreshing state... [id=basik-eks-cluster-v135-velero-irsa/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-velero-policy]
+module.aws_load_balancer_controller_irsa.aws_iam_role_policy_attachment.load_balancer_controller[0]: Refreshing state... [id=basik-eks-cluster-v135-aws-load-balancer-controller/arn:aws:iam::441718104055:policy/AmazonEKS_AWS_Load_Balancer_Controller-7b8296f7561bcff84f8c882cc5]
+aws_iam_role_policy_attachment.ebs_csi: Refreshing state... [id=basik-eks-cluster-v135-ebs-csi/arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy]
+aws_eks_addon.ebs_csi: Refreshing state... [id=basik-eks-cluster-v135:aws-ebs-csi-driver]
+helm_release.aws_load_balancer_controller: Refreshing state... [id=aws-load-balancer-controller]
+aws_iam_role_policy_attachment.karpenter_v114_controller["eks_integration"]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-eks-integration]
+aws_iam_role_policy_attachment.karpenter_v114_controller["zonal_shift"]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-zonal-shift]
+aws_iam_role_policy_attachment.karpenter_v114_controller["iam_integration"]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-iam-integration]
+aws_iam_role_policy_attachment.karpenter_v114_controller["node_lifecycle"]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-node-lifecycle]
+aws_iam_role_policy_attachment.karpenter_v114_controller["resource_discovery"]: Refreshing state... [id=basik-eks-cluster-v135-karpenter-controller/arn:aws:iam::441718104055:policy/basik-eks-cluster-v135-karpenter-resource-discovery]
+helm_release.karpenter: Refreshing state... [id=karpenter]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_eks_addon.metrics_server will be updated in-place
+  ~ resource "aws_eks_addon" "metrics_server" {
+        id                          = "basik-eks-cluster-v135:metrics-server"
+      + resolve_conflicts_on_create = "OVERWRITE"
+      + resolve_conflicts_on_update = "PRESERVE"
+      ~ tags                        = {
+          + "Cluster"     = "basik-eks-cluster-v135"
+          + "Environment" = "production"
+          + "ManagedBy"   = "Terraform"
+          + "Owner"       = "Expert Cloud Consulting"
+          + "Project"     = "basik-eks"
+          + "Terraform"   = "true"
+          + "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+      ~ tags_all                    = {
+          + "Cluster"     = "basik-eks-cluster-v135"
+          + "Environment" = "production"
+          + "ManagedBy"   = "Terraform"
+          + "Owner"       = "Expert Cloud Consulting"
+          + "Project"     = "basik-eks"
+          + "Terraform"   = "true"
+          + "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+        # (9 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # aws_eks_addon.snapshot_controller will be updated in-place
+  ~ resource "aws_eks_addon" "snapshot_controller" {
+        id                          = "basik-eks-cluster-v135:snapshot-controller"
+      + resolve_conflicts_on_create = "OVERWRITE"
+      + resolve_conflicts_on_update = "PRESERVE"
+      ~ tags                        = {
+          + "Cluster"     = "basik-eks-cluster-v135"
+          + "Environment" = "production"
+          + "ManagedBy"   = "Terraform"
+          + "Owner"       = "Expert Cloud Consulting"
+          + "Project"     = "basik-eks"
+          + "Terraform"   = "true"
+          + "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+      ~ tags_all                    = {
+          + "Cluster"     = "basik-eks-cluster-v135"
+          + "Environment" = "production"
+          + "ManagedBy"   = "Terraform"
+          + "Owner"       = "Expert Cloud Consulting"
+          + "Project"     = "basik-eks"
+          + "Terraform"   = "true"
+          + "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+        # (9 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # helm_release.karpenter will be updated in-place
+  ~ resource "helm_release" "karpenter" {
+        id                         = "karpenter"
+      ~ metadata                   = [
+          - {
+              - app_version    = "1.14.0"
+              - chart          = "karpenter"
+              - first_deployed = 1785673718
+              - last_deployed  = 1785673718
+              - name           = "karpenter"
+              - namespace      = "kube-system"
+              - revision       = 1
+              - values         = jsonencode(
+                    {
+                      - controller     = {
+                          - resources = {
+                              - limits   = {
+                                  - cpu    = 1
+                                  - memory = "1Gi"
+                                }
+                              - requests = {
+                                  - cpu    = "500m"
+                                  - memory = "512Mi"
+                                }
+                            }
+                        }
+                      - replicas       = 2
+                      - serviceAccount = {
+                          - annotations = {
+                              - "eks.amazonaws.com/role-arn" = "arn:aws:iam::441718104055:role/basik-eks-cluster-v135-karpenter-controller"
+                            }
+                        }
+                      - settings       = {
+                          - clusterEndpoint = "https://BC630EB78A5F5DBB29DABC07D369ECFE.gr7.ap-south-1.eks.amazonaws.com"
+                          - clusterName     = "basik-eks-cluster-v135"
+                          - featureGates    = {
+                              - drift = true
+                            }
+                        }
+                    }
+                )
+              - version        = "1.14.0"
+                # (1 unchanged attribute hidden)
+            },
+        ] -> (known after apply)
+        name                       = "karpenter"
+      ~ values                     = [
+          ~ <<-EOT
+              - # replicas: 2
+              - 
+              - # controller:
+              - #   resources:
+              - #     requests:
+              - #       cpu: 500m
+              - #       memory: 512Mi
+              - #     limits:
+              - #       cpu: 1
+              - #       memory: 1Gi
+              - 
+              - # settings:
+              - #   featureGates:
+              - #     drift: true
+              - 
+              - replicas: 2
+              - 
+              - controller:
+              -   resources:
+              -     requests:
+              -       cpu: 500m
+              -       memory: 512Mi
+              - 
+              -     limits:
+              -       cpu: 1
+              -       memory: 1Gi
+              - 
+              - settings:
+              -   featureGates:
+              -     drift: true
+              + # Partial verified values; obtain live chart version/full non-secret values before apply.
+              + replicas: 2
+              + controller:
+              +   resources:
+              +     requests:
+              +       cpu: 500m
+              +       memory: 512Mi
+              +     limits:
+              +       cpu: 1
+              +       memory: 1Gi
+            EOT,
+        ]
+        # (26 unchanged attributes hidden)
+
+        # (3 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_eks_node_group.this[0] will be updated in-place
+  ~ resource "aws_eks_node_group" "this" {
+        id                     = "basik-eks-cluster-v135:private-nodes-eks-platform"
+      ~ release_version        = "1.35.6-20260818" -> "1.35.8-20260930"
+        tags                   = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Name"        = "private-nodes-eks-platform"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+        # (16 unchanged attributes hidden)
+
+        # (3 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-platform"].aws_launch_template.this[0] will be updated in-place
+  ~ resource "aws_launch_template" "this" {
+      ~ description                          = "Approved 40 GiB gp3 platform root volume 2026-09-09" -> "Custom launch template for private-nodes-eks-platform EKS managed node group"
+        id                                   = "lt-057726ade3539b45a"
+        name                                 = "private-nodes-eks-platform-e8867d7a939106ffc40025409a"
+        tags                                 = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+      ~ update_default_version               = true -> false
+        # (18 unchanged attributes hidden)
+
+        # (5 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_eks_node_group.this[0] will be updated in-place
+  ~ resource "aws_eks_node_group" "this" {
+        id                     = "basik-eks-cluster-v135:private-nodes-eks-spartans"
+      ~ release_version        = "1.35.6-20260818" -> "1.35.8-20260930"
+        tags                   = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Name"        = "private-nodes-eks-spartans"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+        # (16 unchanged attributes hidden)
+
+        # (4 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-spartans"].aws_launch_template.this[0] will be updated in-place
+  ~ resource "aws_launch_template" "this" {
+        id                                   = "lt-078aef1100c5a5d73"
+        name                                 = "private-nodes-eks-spartans-eee281d364287042d0dcf62fb8"
+        tags                                 = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+      ~ update_default_version               = true -> false
+        # (19 unchanged attributes hidden)
+
+        # (4 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_eks_node_group.this[0] will be updated in-place
+  ~ resource "aws_eks_node_group" "this" {
+        id                     = "basik-eks-cluster-v135:private-nodes-eks-tec"
+      ~ release_version        = "1.35.6-20260818" -> "1.35.8-20260930"
+        tags                   = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Name"        = "private-nodes-eks-tec"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+        # (16 unchanged attributes hidden)
+
+        # (4 unchanged blocks hidden)
+    }
+
+  # module.eks.module.eks_managed_node_group["private-nodes-eks-tec"].aws_launch_template.this[0] will be updated in-place
+  ~ resource "aws_launch_template" "this" {
+        id                                   = "lt-0fb530dc964c9d730"
+        name                                 = "private-nodes-eks-tec-33577a56596bdb1d015ab213ce"
+        tags                                 = {
+            "Cluster"     = "basik-eks-cluster-v135"
+            "Environment" = "production"
+            "ManagedBy"   = "Terraform"
+            "Owner"       = "Expert Cloud Consulting"
+            "Project"     = "basik-eks"
+            "Terraform"   = "true"
+            "aws-apn-id"  = "a5ds2cjuxeo5p25u8p6v6zy0j"
+        }
+      ~ update_default_version               = true -> false
+        # (19 unchanged attributes hidden)
+
+        # (4 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 9 to change, 0 to destroy.
+
+Warning: Deprecated value used
+
+  on .terraform\modules\aws_load_balancer_controller_irsa\modules\iam-role-for-service-accounts-eks\main.tf line 9, in locals:
+   9:   region              = data.aws_region.current.name
+
+  The deprecation originates from module.aws_load_balancer_controller_irsa.data.aws_region.current.name
+
+name is deprecated. Use region instead.
+
+(and 3 more similar warnings elsewhere)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.

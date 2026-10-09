@@ -1,0 +1,37 @@
+# Partial verified values; obtain live chart version/full non-secret values before apply.
+replicas: 2
+controller:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: karpenter.sh/nodepool
+          operator: DoesNotExist
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/instance: karpenter
+          app.kubernetes.io/name: karpenter
+      topologyKey: kubernetes.io/hostname
+nodeSelector:
+  kubernetes.io/os: linux
+topologySpreadConstraints:
+- labelSelector:
+    matchLabels:
+      app.kubernetes.io/instance: karpenter
+      app.kubernetes.io/name: karpenter
+  maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: DoNotSchedule
+tolerations:
+- key: CriticalAddonsOnly
+  operator: Exists

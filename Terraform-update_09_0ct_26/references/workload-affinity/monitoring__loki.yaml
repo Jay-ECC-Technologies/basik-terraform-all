@@ -1,0 +1,24 @@
+namespace: monitoring
+workload: loki
+kind: StatefulSet
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - platform
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/component: single-binary
+          app.kubernetes.io/instance: loki
+          app.kubernetes.io/name: loki
+      topologyKey: kubernetes.io/hostname
+topologySpreadConstraints: null
+tolerations: null

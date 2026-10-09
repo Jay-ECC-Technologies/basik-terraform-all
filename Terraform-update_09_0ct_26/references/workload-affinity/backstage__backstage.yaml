@@ -1,0 +1,16 @@
+namespace: backstage
+workload: backstage
+kind: Deployment
+replicas: 0
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - platform
+topologySpreadConstraints: null
+tolerations: null

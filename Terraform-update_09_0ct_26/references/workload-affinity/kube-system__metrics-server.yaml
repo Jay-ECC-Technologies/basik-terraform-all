@@ -1,0 +1,41 @@
+namespace: kube-system
+workload: metrics-server
+kind: Deployment
+replicas: 2
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/os
+          operator: In
+          values:
+          - linux
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          - amd64
+          - arm64
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - metrics-server
+        topologyKey: kubernetes.io/hostname
+      weight: 100
+topologySpreadConstraints:
+- labelSelector:
+    matchLabels:
+      app.kubernetes.io/instance: metrics-server
+      app.kubernetes.io/name: metrics-server
+  maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: ScheduleAnyway
+tolerations:
+- key: CriticalAddonsOnly
+  operator: Exists

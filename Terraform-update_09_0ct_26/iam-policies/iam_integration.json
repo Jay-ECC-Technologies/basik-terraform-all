@@ -1,0 +1,77 @@
+{
+  "Statement": [
+    {
+      "Action": "iam:PassRole",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": [
+            "ec2.amazonaws.com",
+            "ec2.amazonaws.com.cn"
+          ]
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::441718104055:role/basik-eks-cluster-v135-karpenter-node",
+      "Sid": "AllowPassingInstanceRole"
+    },
+    {
+      "Action": [
+        "iam:CreateInstanceProfile"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestTag/eks:eks-cluster-name": "basik-eks-cluster-v135",
+          "aws:RequestTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned",
+          "aws:RequestTag/topology.kubernetes.io/region": "ap-south-1"
+        },
+        "StringLike": {
+          "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::441718104055:instance-profile/*",
+      "Sid": "AllowScopedInstanceProfileCreationActions"
+    },
+    {
+      "Action": [
+        "iam:TagInstanceProfile"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestTag/eks:eks-cluster-name": "basik-eks-cluster-v135",
+          "aws:RequestTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned",
+          "aws:RequestTag/topology.kubernetes.io/region": "ap-south-1",
+          "aws:ResourceTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned",
+          "aws:ResourceTag/topology.kubernetes.io/region": "ap-south-1"
+        },
+        "StringLike": {
+          "aws:RequestTag/karpenter.k8s.aws/ec2nodeclass": "*",
+          "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::441718104055:instance-profile/*",
+      "Sid": "AllowScopedInstanceProfileTagActions"
+    },
+    {
+      "Action": [
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:DeleteInstanceProfile"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/kubernetes.io/cluster/basik-eks-cluster-v135": "owned",
+          "aws:ResourceTag/topology.kubernetes.io/region": "ap-south-1"
+        },
+        "StringLike": {
+          "aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass": "*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::441718104055:instance-profile/*",
+      "Sid": "AllowScopedInstanceProfileActions"
+    }
+  ],
+  "Version": "2012-10-17"
+}

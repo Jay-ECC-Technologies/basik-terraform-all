@@ -1,0 +1,8 @@
+namespace: monitoring
+workload: vmalertmanager-vm-victoria-metrics-k8s-stack
+kind: StatefulSet
+replicas: 1
+nodeSelector: null
+affinity: null
+topologySpreadConstraints: null
+tolerations: null

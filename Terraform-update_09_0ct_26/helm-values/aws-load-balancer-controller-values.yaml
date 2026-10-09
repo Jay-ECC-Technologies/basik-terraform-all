@@ -1,0 +1,45 @@
+# replicaCount: 2
+
+# enableShield: true
+
+# enableWaf: false
+
+# enableWafv2: false
+
+# enableServiceMutatorWebhook: true
+
+# podDisruptionBudget:
+#   maxUnavailable: 1
+
+# resources:
+#   requests:
+#     cpu: 200m
+#     memory: 256Mi
+#   limits:
+#     cpu: 500m
+#     memory: 512Mi
+
+replicaCount: 2
+
+region: ap-south-1
+
+enableShield: true
+
+enableWafv2: false
+
+enableWaf: false
+
+enableServiceMutatorWebhook: true
+
+podDisruptionBudget:
+  maxUnavailable: 1
+
+resources:
+
+  requests:
+    cpu: 300m
+    memory: 500Mi
+
+  limits:
+    cpu: 600m
+    memory: 1024Mi

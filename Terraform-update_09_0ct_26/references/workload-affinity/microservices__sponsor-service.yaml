@@ -1,0 +1,16 @@
+namespace: microservices
+workload: sponsor-service
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - tec
+topologySpreadConstraints: null
+tolerations: null

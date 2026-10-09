@@ -1,0 +1,13 @@
+namespace: kube-system
+workload: efs-csi-controller
+kind: Deployment
+replicas: 2
+nodeSelector:
+  kubernetes.io/os: linux
+affinity: null
+topologySpreadConstraints: null
+tolerations:
+- key: CriticalAddonsOnly
+  operator: Exists
+- key: efs.csi.aws.com/agent-not-ready
+  operator: Exists

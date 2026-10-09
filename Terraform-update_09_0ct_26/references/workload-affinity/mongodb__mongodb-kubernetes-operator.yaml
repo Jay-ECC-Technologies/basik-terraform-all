@@ -1,0 +1,17 @@
+namespace: mongodb
+workload: mongodb-kubernetes-operator
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: name
+          operator: In
+          values:
+          - mongodb-kubernetes-operator
+      topologyKey: kubernetes.io/hostname
+topologySpreadConstraints: null
+tolerations: null

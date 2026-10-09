@@ -1,0 +1,19 @@
+namespace: kube-system
+workload: aws-load-balancer-controller
+kind: Deployment
+replicas: 2
+nodeSelector: null
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - aws-load-balancer-controller
+        topologyKey: kubernetes.io/hostname
+      weight: 100
+topologySpreadConstraints: null
+tolerations: null

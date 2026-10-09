@@ -1,0 +1,36 @@
+{
+  "collection": "2026-10-07T10:14:56Z",
+  "account": "441718104055",
+  "cluster": "basik-eks-cluster-v135",
+  "kmsKeyArn": "arn:aws:kms:ap-south-1:441718104055:key/793ea5bf-4924-4fbe-ba84-86030a29b490",
+  "known_launch_templates": {
+    "platform": {
+      "name": "private-nodes-eks-platform-e8867d7a939106ffc40025409a",
+      "version": "3",
+      "id": "lt-057726ade3539b45a"
+    },
+    "tec": {
+      "name": "private-nodes-eks-tec-33577a56596bdb1d015ab213ce",
+      "version": "2",
+      "id": "lt-0fb530dc964c9d730"
+    },
+    "spartans": {
+      "name": "private-nodes-eks-spartans-eee281d364287042d0dcf62fb8",
+      "version": "2",
+      "id": "lt-078aef1100c5a5d73"
+    }
+  },
+  "stateSerial": 150,
+  "stateTerraformVersion": "1.15.8",
+  "stateManagedInstances": 111,
+  "importRequiredForPriorCandidates": false,
+  "status": "state-reconciled-review-only",
+  "backend": {
+    "bucket": "basik-eks-state-bucket",
+    "key": "terraform-aws-eks-v135.tfstate",
+    "region": "ap-south-1",
+    "use_lockfile": true,
+    "encrypt": true,
+    "live_switch_executed": false
+  }
+}

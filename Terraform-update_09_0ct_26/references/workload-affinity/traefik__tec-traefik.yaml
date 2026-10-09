@@ -1,0 +1,17 @@
+namespace: traefik
+workload: tec-traefik
+kind: Deployment
+replicas: 3
+nodeSelector:
+  role: platform
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/nodegroup
+          operator: In
+          values:
+          - private-nodes-eks-platform
+topologySpreadConstraints: null
+tolerations: null

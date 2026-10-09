@@ -1,0 +1,8 @@
+namespace: monitoring
+workload: robusta-runner
+kind: Deployment
+replicas: 0
+nodeSelector: null
+affinity: null
+topologySpreadConstraints: null
+tolerations: null

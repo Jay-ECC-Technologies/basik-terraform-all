@@ -1,0 +1,23 @@
+namespace: microservices
+workload: neo4j
+kind: StatefulSet
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: role
+          operator: In
+          values:
+          - platform
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchLabels:
+          app: neo4j
+          helm.neo4j.com/pod_category: neo4j-instance
+      topologyKey: kubernetes.io/hostname
+topologySpreadConstraints: null
+tolerations: null

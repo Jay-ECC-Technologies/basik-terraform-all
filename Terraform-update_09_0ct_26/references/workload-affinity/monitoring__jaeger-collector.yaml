@@ -1,0 +1,8 @@
+namespace: monitoring
+workload: jaeger-collector
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity: null
+topologySpreadConstraints: null
+tolerations: null

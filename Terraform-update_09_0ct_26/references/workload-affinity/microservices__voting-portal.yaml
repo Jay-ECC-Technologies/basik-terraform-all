@@ -1,0 +1,16 @@
+namespace: microservices
+workload: voting-portal
+kind: Deployment
+replicas: 1
+nodeSelector: null
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/nodegroup
+          operator: In
+          values:
+          - private-nodes-eks-tec
+topologySpreadConstraints: null
+tolerations: null

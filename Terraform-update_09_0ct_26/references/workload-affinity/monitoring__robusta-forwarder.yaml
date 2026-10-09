@@ -1,0 +1,8 @@
+namespace: monitoring
+workload: robusta-forwarder
+kind: Deployment
+replicas: 0
+nodeSelector: null
+affinity: null
+topologySpreadConstraints: null
+tolerations: null

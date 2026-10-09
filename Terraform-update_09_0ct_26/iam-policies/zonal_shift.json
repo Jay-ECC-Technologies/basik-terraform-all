@@ -1,0 +1,18 @@
+{
+  "Statement": [
+    {
+      "Action": [
+        "arc-zonal-shift:GetManagedResource"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "arc-zonal-shift:ResourceIdentifier": "arn:aws:eks:ap-south-1:441718104055:cluster/basik-eks-cluster-v135"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "AllowZonalShiftStatusReadOnly"
+    }
+  ],
+  "Version": "2012-10-17"
+}
